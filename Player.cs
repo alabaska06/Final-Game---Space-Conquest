@@ -31,13 +31,13 @@ namespace Final_Game___Space_Conquest
             Vector2 direction = Vector2.Zero;
 
             if (state.IsKeyDown(Keys.W))
-                Position.Y -= _speed;
+                direction.Y -= _speed;
             if (state.IsKeyDown(Keys.S))
-                Position.Y += _speed;
+                direction.Y += _speed;
             if (state.IsKeyDown(Keys.A))
-                Position.X -= _speed;
+                direction.X -= _speed;
             if (state.IsKeyDown(Keys.D))
-                Position.X += _speed;
+                direction.X += _speed;
 
             if (direction != Vector2.Zero)
             {
