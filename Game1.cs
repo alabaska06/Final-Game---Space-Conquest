@@ -1,12 +1,13 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
+using System.Collections.Generic;
 
 namespace Final_Game___Space_Conquest
 {
     public class Game1 : Game
     {
-        Texture2D floor;
+        Texture2D floor, wall3;
 
         private Player _player;
         private Camera _camera;
@@ -16,6 +17,9 @@ namespace Final_Game___Space_Conquest
 
         private GraphicsDeviceManager _graphics;
         private SpriteBatch _spriteBatch;
+
+        List<Rectangle> walls;
+      
 
         public Game1()
         {
@@ -33,13 +37,17 @@ namespace Final_Game___Space_Conquest
             _graphics.ApplyChanges();
 
             base.Initialize();
+
+            walls = new List<Rectangle>();
+            walls.Add(new Rectangle(0, 100, 300, 75));
         }
 
         protected override void LoadContent()
         {
             _spriteBatch = new SpriteBatch(GraphicsDevice);
-            floor = Content.Load<Texture2D>("pixelfloor");
-            _playerTexture = Content.Load<Texture2D>("blob");
+            floor = Content.Load<Texture2D>("floor21");
+            _playerTexture = Content.Load<Texture2D>("player");
+            wall3 = Content.Load<Texture2D>("wall3");
 
             _player = new Player(_playerTexture);
             _camera = new Camera(GraphicsDevice.Viewport);
@@ -67,8 +75,7 @@ namespace Final_Game___Space_Conquest
             GraphicsDevice.Clear(Color.CornflowerBlue);
 
             _spriteBatch.Begin(transformMatrix: _camera.Transform);
-            _spriteBatch.Draw(floor, new Rectangle(0, 0, 200, 150), Color.White);
-            _spriteBatch.Draw(floor, new Rectangle(400, 400, 200, 150), Color.Green);
+            _spriteBatch.Draw(floor, new Rectangle(0, 0, 2100, 2100), Color.White);
             _player.Draw(_spriteBatch);
 
 
