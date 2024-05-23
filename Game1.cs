@@ -7,7 +7,7 @@ namespace Final_Game___Space_Conquest
 {
     public class Game1 : Game
     {
-        Texture2D floor, wall9;
+        Texture2D floor, wallmc;
 
         private Player _player;
         private Camera _camera;
@@ -41,21 +41,9 @@ namespace Final_Game___Space_Conquest
             base.Initialize();
 
             walls = new List<Rectangle>();
-            walls.Add(new Rectangle(285, 103, 486, 54));//mech
-            walls.Add(new Rectangle(427, 61, 486, 54));//pil
-            walls.Add(new Rectangle(395, 61, 486, 54));//coms
-            walls.Add(new Rectangle(267, 269, 486, 54));
-            walls.Add(new Rectangle(443, 387, 486, 54));
-            walls.Add(new Rectangle(114, 148, 486, 54));
-            walls.Add(new Rectangle(337, 416, 486, 54));
-            walls.Add(new Rectangle(201, 70, 486, 54));
-            walls.Add(new Rectangle(61, 312, 486, 54));
-            walls.Add(new Rectangle(97, 258, 486, 54));
-            walls.Add(new Rectangle(97, 341, 486, 54));
-            walls.Add(new Rectangle(217, 403, 486, 54));
-            walls.Add(new Rectangle(460, 312, 486, 54));
-            walls.Add(new Rectangle(324, 82, 486, 54));
-            walls.Add(new Rectangle(217, 403, 486, 54));
+            walls.Add(new Rectangle(210, 63, 432, 57));//mech
+            walls.Add(new Rectangle(373, 63, 432, 57));//pil
+            
         }
 
         protected override void LoadContent()
@@ -63,7 +51,7 @@ namespace Final_Game___Space_Conquest
             _spriteBatch = new SpriteBatch(GraphicsDevice);
             floor = Content.Load<Texture2D>("floor21");
             _playerTexture = Content.Load<Texture2D>("pilot");
-            wall9 = Content.Load<Texture2D>("wall9");
+            wallmc = Content.Load<Texture2D>("wallmc2");
 
             _player = new Player(_playerTexture);
             _camera = new Camera(GraphicsDevice.Viewport);
@@ -102,7 +90,7 @@ namespace Final_Game___Space_Conquest
             _player.Draw(_spriteBatch);
 
             foreach (Rectangle wall in walls)
-                _spriteBatch.Draw(wall9, wall, Color.White);
+                _spriteBatch.Draw(wallmc, wall, Color.White);
             
 
             _spriteBatch.End();
