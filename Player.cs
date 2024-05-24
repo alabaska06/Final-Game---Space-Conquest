@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Threading;
 
 namespace Final_Game___Space_Conquest
 {
@@ -20,7 +21,7 @@ namespace Final_Game___Space_Conquest
         {
             _texture = texture;
             Position = Vector2.Zero;
-            _speed = 2f;
+            _speed = 4f;
             _rotation = 0f;
         }
 

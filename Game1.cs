@@ -2,12 +2,13 @@
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using System.Collections.Generic;
+using System.Threading;
 
 namespace Final_Game___Space_Conquest
 {
     public class Game1 : Game
     {
-        Texture2D floor, wallmc;
+        Texture2D floor, wall;
 
         private Player _player;
         private Camera _camera;
@@ -41,9 +42,24 @@ namespace Final_Game___Space_Conquest
             base.Initialize();
 
             walls = new List<Rectangle>();
-            walls.Add(new Rectangle(210, 63, 432, 57));//mech
-            walls.Add(new Rectangle(373, 63, 432, 57));//pil
-            
+            walls.Add(new Rectangle(228, 60, 432, 57));//mech
+            walls.Add(new Rectangle(373, 60, 432, 57));
+            walls.Add(new Rectangle(228, 444, 432, 57));
+            walls.Add(new Rectangle(373, 444, 432, 57));
+            walls.Add(new Rectangle(805, -29, 432, 57));//pilot
+            walls.Add(new Rectangle(1237, -29, 432, 57));
+            walls.Add(new Rectangle(1549, -29, 432, 57));//coms
+            walls.Add(new Rectangle(565, 444, 432, 57));//pilot
+            walls.Add(new Rectangle(1140, 444, 432, 57));
+            walls.Add(new Rectangle(1715, 444, 432, 57));//coms
+            walls.Add(new Rectangle(1548, 657, 432, 57));//gar
+            walls.Add(new Rectangle(1668, 657, 432, 57));
+            walls.Add(new Rectangle(1548, 1363, 432, 57));
+            walls.Add(new Rectangle(1668, 1363, 432, 57));
+            walls.Add(new Rectangle(647, 1530, 432, 57));//kit
+            walls.Add(new Rectangle(1079, 1530, 432, 57));
+
+
         }
 
         protected override void LoadContent()
@@ -51,7 +67,7 @@ namespace Final_Game___Space_Conquest
             _spriteBatch = new SpriteBatch(GraphicsDevice);
             floor = Content.Load<Texture2D>("floor21");
             _playerTexture = Content.Load<Texture2D>("pilot");
-            wallmc = Content.Load<Texture2D>("wallmc2");
+            wall = Content.Load<Texture2D>("bluewall");
 
             _player = new Player(_playerTexture);
             _camera = new Camera(GraphicsDevice.Viewport);
@@ -62,10 +78,7 @@ namespace Final_Game___Space_Conquest
 
         protected override void Update(GameTime gameTime)
         {
-
             mouseState = Mouse.GetState();
-           
-
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
                 Exit();
 
@@ -89,8 +102,8 @@ namespace Final_Game___Space_Conquest
             _spriteBatch.Draw(floor, new Rectangle(0, 0, 2100, 2100), Color.White);
             _player.Draw(_spriteBatch);
 
-            foreach (Rectangle wall in walls)
-                _spriteBatch.Draw(wallmc, wall, Color.White);
+            foreach (Rectangle walls in walls)
+                _spriteBatch.Draw(wall, walls, Color.White);
             
 
             _spriteBatch.End();
