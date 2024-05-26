@@ -22,7 +22,7 @@ namespace Final_Game___Space_Conquest
         private SpriteBatch _spriteBatch;
 
         List<Rectangle> walls;
-      
+
 
         public Game1()
         {
@@ -35,30 +35,31 @@ namespace Final_Game___Space_Conquest
         {
             // TODO: Add your initialization logic here
 
-            _graphics.PreferredBackBufferWidth = 800; 
-            _graphics.PreferredBackBufferHeight = 500; 
+            _graphics.PreferredBackBufferWidth = 800;
+            _graphics.PreferredBackBufferHeight = 500;
             _graphics.ApplyChanges();
 
             base.Initialize();
 
-            walls = new List<Rectangle>();
-            walls.Add(new Rectangle(228, 60, 432, 57));//mech
-            walls.Add(new Rectangle(373, 60, 432, 57));
-            walls.Add(new Rectangle(228, 444, 432, 57));
-            walls.Add(new Rectangle(373, 444, 432, 57));
-            walls.Add(new Rectangle(805, -29, 432, 57));//pilot
-            walls.Add(new Rectangle(1237, -29, 432, 57));
-            walls.Add(new Rectangle(1549, -29, 432, 57));//coms
-            walls.Add(new Rectangle(565, 444, 432, 57));//pilot
-            walls.Add(new Rectangle(1140, 444, 432, 57));
-            walls.Add(new Rectangle(1715, 444, 432, 57));//coms
-            walls.Add(new Rectangle(1548, 657, 432, 57));//gar
-            walls.Add(new Rectangle(1668, 657, 432, 57));
-            walls.Add(new Rectangle(1548, 1363, 432, 57));
-            walls.Add(new Rectangle(1668, 1363, 432, 57));
-            walls.Add(new Rectangle(647, 1530, 432, 57));//kit
-            walls.Add(new Rectangle(1079, 1530, 432, 57));
-
+            walls = new List<Rectangle>
+            {
+                 new Rectangle(228, 60, 432, 57), // mech
+                 new Rectangle(373, 60, 432, 57),
+                 new Rectangle(228, 444, 432, 57),
+                 new Rectangle(373, 444, 432, 57),
+                 new Rectangle(805, -29, 432, 57), // pilot
+                 new Rectangle(1237, -29, 432, 57),
+                 new Rectangle(1549, -29, 432, 57), // coms
+                 new Rectangle(565, 444, 432, 57), // pilot
+                 new Rectangle(1140, 444, 432, 57),
+                 new Rectangle(1715, 444, 432, 57), // coms
+                 new Rectangle(1548, 657, 432, 57), // gar
+                 new Rectangle(1668, 657, 432, 57),
+                 new Rectangle(1548, 1363, 432, 57),
+                 new Rectangle(1668, 1363, 432, 57),
+                 new Rectangle(647, 1530, 432, 57), // kit
+                 new Rectangle(1079, 1530, 432, 57)
+            };
 
         }
 
@@ -82,7 +83,7 @@ namespace Final_Game___Space_Conquest
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
                 Exit();
 
-            _player.Update(gameTime);
+            _player.Update(gameTime, walls);
             _camera.Update(_player.Position);
 
             Vector2 worldMousePosition = ScreenToWorld(new Vector2(mouseState.X, mouseState.Y));
@@ -104,7 +105,7 @@ namespace Final_Game___Space_Conquest
 
             foreach (Rectangle walls in walls)
                 _spriteBatch.Draw(wall, walls, Color.White);
-            
+
 
             _spriteBatch.End();
 
@@ -119,6 +120,8 @@ namespace Final_Game___Space_Conquest
         {
             return Vector2.Transform(screenPosition, Matrix.Invert(_camera.Transform));
         }
+
+
 
 
     }
