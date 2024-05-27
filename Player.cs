@@ -78,7 +78,8 @@ namespace Final_Game___Space_Conquest
             public void Draw(SpriteBatch spriteBatch)
             {
                 Vector2 origin = new Vector2(_texture.Width / 2, _texture.Height / 2);
-                spriteBatch.Draw(_texture, Position, null, Color.White, _rotation, origin, 1.0f, SpriteEffects.None, 0f);
+                
+                spriteBatch.Draw(_texture, new Vector2(Position.X + origin.X, Position.Y + origin.Y), null, Color.White, _rotation, origin, 1.0f, SpriteEffects.None, 0f);
             }
 
         }
