@@ -8,7 +8,7 @@ namespace Final_Game___Space_Conquest
 {
     public class Game1 : Game
     {
-        Texture2D floor, wall;
+        Texture2D floor, wall, wallUp;
 
         private Player _player;
         private Camera _camera;
@@ -22,6 +22,8 @@ namespace Final_Game___Space_Conquest
         private SpriteBatch _spriteBatch;
 
         List<Rectangle> walls;
+
+        List<Rectangle> wallsUp;
 
 
         public Game1()
@@ -45,7 +47,7 @@ namespace Final_Game___Space_Conquest
             {
                  new Rectangle(228, 60, 432, 57), // mech
                  new Rectangle(373, 60, 432, 57),
-                 new Rectangle(228, 444, 432, 57),
+                 new Rectangle(171, 444, 432, 57),
                  new Rectangle(373, 444, 432, 57),
                  new Rectangle(805, -29, 432, 57), // pilot
                  new Rectangle(1237, -29, 432, 57),
@@ -58,7 +60,45 @@ namespace Final_Game___Space_Conquest
                  new Rectangle(1548, 1363, 432, 57),
                  new Rectangle(1668, 1363, 432, 57),
                  new Rectangle(647, 1530, 432, 57), // kit
-                 new Rectangle(1079, 1530, 432, 57)
+                 new Rectangle(1079, 1530, 432, 57),
+                 new Rectangle(1652, 1530, 432, 57),
+                 new Rectangle(1665, 1530, 432, 57),
+                 new Rectangle(647, 1979, 432, 57),
+                 new Rectangle(1079, 1979, 432, 57),
+                 new Rectangle(1511, 1979, 432, 57),
+                 new Rectangle(1665, 1979, 432, 57),
+                 new Rectangle(90, 657, 432, 57),//furn
+                 new Rectangle(198, 657, 451, 57),
+                 new Rectangle(-341, 1080, 432, 57),
+                 new Rectangle(198, 1080, 451, 57),
+                 new Rectangle(-1, 1305, 432, 57),//bed
+                 new Rectangle(215, 1305, 432, 57),
+                 new Rectangle(70, 1979, 432, 57),
+                 new Rectangle(217, 1979, 432, 57),
+                 new Rectangle(792, 713, 432, 57),//meet
+                 new Rectangle(894, 713, 432, 57),
+                 new Rectangle(792, 1248, 245, 57),
+                 new Rectangle(1180, 1248, 200, 57),
+            };
+
+            wallsUp = new List<Rectangle>
+            {
+                 new Rectangle(171, 60, 57, 437),//mech
+                 new Rectangle(774, -29, 57, 337),//pil/mech
+                 new Rectangle(1330, -29, 57, 437),//coms
+                 new Rectangle(1330, 62, 57, 436),
+                 new Rectangle(1980, -29, 57, 437),
+                 new Rectangle(1980, 62, 57, 436),
+                 new Rectangle(33, 657, 57, 432),//furn
+                 new Rectangle(33, 702, 57, 432),
+                 new Rectangle(594, 657, 57, 432),
+                 new Rectangle(594, 702, 57, 432),
+                 new Rectangle(792, 712, 57, 432),//meet
+                 new Rectangle(792, 869, 57, 432),
+                 new Rectangle(1324, 712, 57, 432),
+                 new Rectangle(1324, 869, 57, 432),
+                 new Rectangle(1549, 657, 57, 432),//gar
+                 new Rectangle(1549, 1231, 57, 186),
             };
 
         }
@@ -69,6 +109,7 @@ namespace Final_Game___Space_Conquest
             floor = Content.Load<Texture2D>("floor21");
             _playerTexture = Content.Load<Texture2D>("pilot");
             wall = Content.Load<Texture2D>("bluewall");
+            wallUp = Content.Load<Texture2D>("wallUp");
 
             _player = new Player(_playerTexture);
             _camera = new Camera(GraphicsDevice.Viewport);
@@ -105,6 +146,9 @@ namespace Final_Game___Space_Conquest
 
             foreach (Rectangle walls in walls)
                 _spriteBatch.Draw(wall, walls, Color.White);
+
+            foreach (Rectangle wall in wallsUp)
+                _spriteBatch.Draw(wallUp, wall, Color.White);
 
 
             _spriteBatch.End();

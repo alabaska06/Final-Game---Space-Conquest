@@ -23,7 +23,7 @@ namespace Final_Game___Space_Conquest
             {
                 _texture = texture;
                 Position = Vector2.Zero;
-                _speed = 4f;
+                _speed = 6f;
                 _rotation = 0f;
                 UpdateBoundingBox();
             }
