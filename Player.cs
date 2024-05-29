@@ -28,7 +28,7 @@ namespace Final_Game___Space_Conquest
                 UpdateBoundingBox();
             }
 
-            public void Update(GameTime gameTime, List<Rectangle> walls)
+            public void Update(GameTime gameTime, List<Rectangle> walls, List<Rectangle> wallsUp)
             {
                 KeyboardState state = Keyboard.GetState();
 
@@ -49,13 +49,14 @@ namespace Final_Game___Space_Conquest
                     Vector2 newPosition = Position + direction * _speed;
                     Rectangle newBoundingBox = new Rectangle((int)newPosition.X, (int)newPosition.Y, BoundingBox.Width, BoundingBox.Height);
 
-                    if (!IsCollidingWithWalls(newBoundingBox, walls))
+                    if (!IsCollidingWithWalls(newBoundingBox, walls, wallsUp))
                     {
                         Position = newPosition;
                         _rotation = (float)Math.Atan2(direction.Y, direction.X);
                         UpdateBoundingBox();
                     }
-                }
+                    
+            }
             }
 
         private void UpdateBoundingBox()
@@ -63,9 +64,16 @@ namespace Final_Game___Space_Conquest
             BoundingBox = new Rectangle((int)Position.X, (int)Position.Y, _texture.Width, _texture.Height);
         }
 
-        private bool IsCollidingWithWalls(Rectangle newBoundingBox, List<Rectangle> walls)
+        private bool IsCollidingWithWalls(Rectangle newBoundingBox, List<Rectangle> walls, List<Rectangle> wallsUp)
         {
             foreach (Rectangle wall in walls)
+            {
+                if (newBoundingBox.Intersects(wall))
+                {
+                    return true;
+                }
+            }
+            foreach (Rectangle wall in wallsUp)
             {
                 if (newBoundingBox.Intersects(wall))
                 {

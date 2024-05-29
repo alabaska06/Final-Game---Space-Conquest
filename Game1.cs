@@ -66,14 +66,14 @@ namespace Final_Game___Space_Conquest
                  new Rectangle(647, 1979, 432, 57),
                  new Rectangle(1079, 1979, 432, 57),
                  new Rectangle(1511, 1979, 432, 57),
-                 new Rectangle(1665, 1979, 432, 57),
+                 new Rectangle(1665, 1979, 487, 57),
                  new Rectangle(90, 657, 432, 57),//furn
                  new Rectangle(198, 657, 451, 57),
                  new Rectangle(-341, 1080, 432, 57),
                  new Rectangle(198, 1080, 451, 57),
                  new Rectangle(-1, 1305, 432, 57),//bed
                  new Rectangle(215, 1305, 432, 57),
-                 new Rectangle(70, 1979, 432, 57),
+                 new Rectangle(15, 1979, 432, 57),
                  new Rectangle(217, 1979, 432, 57),
                  new Rectangle(792, 713, 432, 57),//meet
                  new Rectangle(894, 713, 432, 57),
@@ -83,7 +83,7 @@ namespace Final_Game___Space_Conquest
 
             wallsUp = new List<Rectangle>
             {
-                 new Rectangle(171, 60, 57, 437),//mech
+                 new Rectangle(173, 60, 57, 437),//mech
                  new Rectangle(774, -29, 57, 337),//pil/mech
                  new Rectangle(1330, -29, 57, 437),//coms
                  new Rectangle(1330, 62, 57, 436),
@@ -99,6 +99,10 @@ namespace Final_Game___Space_Conquest
                  new Rectangle(1324, 869, 57, 432),
                  new Rectangle(1549, 657, 57, 432),//gar
                  new Rectangle(1549, 1231, 57, 186),
+                 new Rectangle(15, 1304, 57, 432),//bed
+                 new Rectangle(15, 1736, 57, 297),
+                 new Rectangle(590, 1530, 57, 505),
+                 new Rectangle(2094, 1530, 57, 505),//kitch
             };
 
         }
@@ -123,8 +127,8 @@ namespace Final_Game___Space_Conquest
             mouseState = Mouse.GetState();
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
                 Exit();
-
-            _player.Update(gameTime, walls);
+            
+            _player.Update(gameTime, walls, wallsUp);
             _camera.Update(_player.Position);
 
             Vector2 worldMousePosition = ScreenToWorld(new Vector2(mouseState.X, mouseState.Y));
