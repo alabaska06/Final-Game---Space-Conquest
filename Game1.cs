@@ -15,6 +15,8 @@ namespace Final_Game___Space_Conquest
 
         private Texture2D _playerTexture;
 
+        private Texture2D _doorTexture;
+
         MouseState mouseState;
 
 
@@ -114,6 +116,7 @@ namespace Final_Game___Space_Conquest
             _playerTexture = Content.Load<Texture2D>("pilot");
             wall = Content.Load<Texture2D>("bluewall");
             wallUp = Content.Load<Texture2D>("wallUp");
+            _doorTexture = Content.Load<Texture2D>("doorIn");
 
             _player = new Player(_playerTexture);
             _camera = new Camera(GraphicsDevice.Viewport);
