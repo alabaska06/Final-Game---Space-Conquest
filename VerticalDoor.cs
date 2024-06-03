@@ -1,12 +1,15 @@
-﻿using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
+﻿using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
+using Microsoft.Xna.Framework;
+using System;
 using System.Collections.Generic;
-
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 
 namespace Final_Game___Space_Conquest
 {
-    public class door
+    internal class VerticalDoor
 {
         private Texture2D _texture;
         public Vector2 Position;
@@ -19,7 +22,7 @@ namespace Final_Game___Space_Conquest
         private float _movedDistance; //distance the door has moved 
         private Rectangle _boundingBox; //for collision detection
 
-        public door(Texture2D texture, Vector2 position, Vector2 direction, float speed)
+        public VerticalDoor(Texture2D texture, Vector2 position, Vector2 direction, float speed)
         {
             _texture = texture;
             Position = position;
@@ -28,7 +31,7 @@ namespace Final_Game___Space_Conquest
             _speed = speed;
             _isClosing = false;
             _isOpening = false;
-            _movementDistance = direction == Vector2.UnitX ? texture.Width : texture.Height; //determine movement distance based on direction
+            _movementDistance = direction == Vector2.UnitY ? texture.Height : texture.Width; //determine movement distance based on direction
             _movedDistance = 0f;
             UpdateBaoundingBox();
         }
@@ -49,7 +52,7 @@ namespace Final_Game___Space_Conquest
             {
                 float movement = _speed * (float)gameTime.ElapsedGameTime.TotalSeconds;
                 Position += _direction * movement;
-                _movedDistance += movement; 
+                _movedDistance += movement;
 
                 if (_movedDistance >= _movementDistance)
                 {
@@ -67,7 +70,7 @@ namespace Final_Game___Space_Conquest
                 Position -= _direction * movement;
                 _movedDistance -= movement;
 
-                if(_movedDistance <= 0)
+                if (_movedDistance <= 0)
                 {
                     Position = _originalPosition;
                     _isClosing = false;
@@ -82,10 +85,11 @@ namespace Final_Game___Space_Conquest
         }
 
         public void Draw(SpriteBatch spriteBatch)
-        {       
-                spriteBatch.Draw(_texture, Position, Color.White);
+        {
+            spriteBatch.Draw(_texture, Position, Color.White);
         }
 
         public Rectangle BoundingBox => _boundingBox;
+    }
 }
-}
+

@@ -16,6 +16,7 @@ namespace Final_Game___Space_Conquest
         private Texture2D _playerTexture;
 
         private Texture2D _doorTexture;
+        private Texture2D _verticalDoorTexture;
 
         MouseState mouseState;
 
@@ -28,6 +29,7 @@ namespace Final_Game___Space_Conquest
         List<Rectangle> wallsUp;
 
         List<door> doors;
+        List<VerticalDoor> verticalDoors;
 
 
         public Game1()
@@ -47,10 +49,15 @@ namespace Final_Game___Space_Conquest
 
             base.Initialize();
 
-            doors = new List<door>
+            doors = new List<door>//horizontal
             {
-                new door(_doorTexture, new Vector2(0, 0), new Vector2(0, -1), 50f, true),//vertical test
-                new door(_doorTexture, new Vector2(0, 0), new Vector2(-1, 0), 50f, false),//horizontal test
+                new door(_doorTexture, new Vector2(0, 20), Vector2.UnitX, 50f),
+                new door(_doorTexture, new Vector2(0, 0), Vector2.UnitX, 50f),
+            };
+
+            verticalDoors = new List<VerticalDoor>//vertical
+            {
+                new VerticalDoor(_verticalDoorTexture, new Vector2(0, 40), Vector2.UnitY, 50f)
             };
 
             walls = new List<Rectangle>
@@ -125,6 +132,7 @@ namespace Final_Game___Space_Conquest
             wall = Content.Load<Texture2D>("bluewall");
             wallUp = Content.Load<Texture2D>("wallUp");
             _doorTexture = Content.Load<Texture2D>("doorIn");
+            _verticalDoorTexture = Content.Load<Texture2D>("verticalDoor");
 
             _player = new Player(_playerTexture);
             _camera = new Camera(GraphicsDevice.Viewport);
@@ -150,6 +158,11 @@ namespace Final_Game___Space_Conquest
             {
                 door.Update(gameTime, mouseState, worldMousePosition);
             }
+
+            foreach (var door in verticalDoors)
+            {
+                door.Update(gameTime, mouseState, worldMousePosition);
+            }
             // TODO: Add your update logic here
 
             base.Update(gameTime);
@@ -164,6 +177,11 @@ namespace Final_Game___Space_Conquest
             _player.Draw(_spriteBatch);
 
             foreach (var door in doors)
+            {
+                door.Draw(_spriteBatch);
+            }
+
+            foreach (var door in verticalDoors)
             {
                 door.Draw(_spriteBatch);
             }
