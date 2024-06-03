@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace Final_Game___Space_Conquest
 {
-    internal class VerticalDoor
+    public class VerticalDoor
 {
         private Texture2D _texture;
         public Vector2 Position;
@@ -33,7 +33,7 @@ namespace Final_Game___Space_Conquest
             _isOpening = false;
             _movementDistance = direction == Vector2.UnitY ? texture.Height : texture.Width; //determine movement distance based on direction
             _movedDistance = 0f;
-            UpdateBaoundingBox();
+            UpdateBoundingBox();
         }
 
         public void Update(GameTime gameTime, MouseState mousestate, Vector2 worldMousePosition)
@@ -76,10 +76,10 @@ namespace Final_Game___Space_Conquest
                     _isClosing = false;
                 }
             }
-            UpdateBaoundingBox();
+            UpdateBoundingBox();
         }
 
-        private void UpdateBaoundingBox()
+        private void UpdateBoundingBox()
         {
             _boundingBox = new Rectangle((int)Position.X, (int)Position.Y, _texture.Width, _texture.Height);
         }

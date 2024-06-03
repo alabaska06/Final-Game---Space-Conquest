@@ -28,7 +28,7 @@ namespace Final_Game___Space_Conquest
                 UpdateBoundingBox();
             }
 
-            public void Update(GameTime gameTime, List<Rectangle> walls, List<Rectangle> wallsUp, List<door> doors)
+            public void Update(GameTime gameTime, List<Rectangle> walls, List<Rectangle> wallsUp, List<door> doors, List<VerticalDoor> verticalDoors)
             {
                 KeyboardState state = Keyboard.GetState();
 
@@ -55,6 +55,12 @@ namespace Final_Game___Space_Conquest
                         _rotation = (float)Math.Atan2(direction.Y, direction.X);
                         UpdateBoundingBox();
                     }
+                    //if (!IsCollidingWithDoors(newBoundingBox, doors, verticalDoors))
+                    //{
+                    //    Position = newPosition;
+                    //    _rotation = (float)Math.Atan2(direction.Y, direction.X);
+                    //    UpdateBoundingBox();
+                    //}
                 }
             }
 
@@ -79,28 +85,35 @@ namespace Final_Game___Space_Conquest
             return false;
         }
 
-        private bool IsCollidingWithDoors(Rectangle newBoundingBox, List<door> doors)
-        {
-            foreach (door door in doors)
-            {
-                if (newBoundingBox.Intersects(door.BoundingBox))
-                {
-                    return true;
-                }
-            }
-            return false;
-        }
+        //private bool IsCollidingWithDoors(Rectangle newBoundingBox, List<door> doors, List<VerticalDoor> verticalDoors)
+        //{
+        //    foreach (door door in doors)
+        //    {
+        //        if (newBoundingBox.Intersects(door))
+        //        {
+        //            return true;
+        //        }
+        //    }
+        //    foreach (VerticalDoor verticalDoor in verticalDoors)
+        //    {
+        //        if (newBoundingBox.Intersects(verticalDoor))
+        //        {
+        //            return true;
+        //        }
+        //    }
+        //    return false;
+        //}
         private void UpdateBoundingBox()
         {
             BoundingBox = new Rectangle((int)Position.X, (int)Position.Y, _texture.Width, _texture.Height);
         }
 
-            public void Draw(SpriteBatch spriteBatch)
-            {
-                Vector2 origin = new Vector2(_texture.Width / 2, _texture.Height / 2);
+        public void Draw(SpriteBatch spriteBatch)
+        {
+            Vector2 origin = new Vector2(_texture.Width / 2, _texture.Height / 2);
                 
-                spriteBatch.Draw(_texture, new Vector2(Position.X + origin.X, Position.Y + origin.Y), null, Color.White, _rotation, origin, 1.0f, SpriteEffects.None, 0f);
-            }
+            spriteBatch.Draw(_texture, new Vector2(Position.X + origin.X, Position.Y + origin.Y), null, Color.White, _rotation, origin, 1.0f, SpriteEffects.None, 0f);
+        }
 
         }
     }

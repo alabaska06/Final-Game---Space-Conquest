@@ -51,13 +51,18 @@ namespace Final_Game___Space_Conquest
 
             doors = new List<door>//horizontal
             {
-                new door(_doorTexture, new Vector2(0, 20), Vector2.UnitX, 50f),
-                new door(_doorTexture, new Vector2(0, 0), Vector2.UnitX, 50f),
+                new door(_doorTexture, new Vector2(995, 485), Vector2.UnitX, 50f),
+                new door(_doorTexture, new Vector2(1570, 443), Vector2.UnitX, 50f),
+                new door(_doorTexture, new Vector2(88, 1088), Vector2.UnitX, 50f),
+                new door(_doorTexture, new Vector2(1034, 1249), Vector2.UnitX, 50f),
+                new door(_doorTexture, new Vector2(1509, 1563), Vector2.UnitX, 50f),
             };
 
             verticalDoors = new List<VerticalDoor>//vertical
             {
-                new VerticalDoor(_verticalDoorTexture, new Vector2(0, 40), Vector2.UnitY, 50f)
+                new VerticalDoor(_verticalDoorTexture, new Vector2(793, 307), Vector2.UnitY, -50f),
+                new VerticalDoor(_verticalDoorTexture, new Vector2(630, 1361), Vector2.UnitY, 50f),
+                new VerticalDoor(_verticalDoorTexture, new Vector2(1549, 1088), Vector2.UnitY, 50f),
             };
 
             walls = new List<Rectangle>
@@ -118,7 +123,7 @@ namespace Final_Game___Space_Conquest
                  new Rectangle(1549, 1231, 57, 186),
                  new Rectangle(15, 1304, 57, 432),//bed
                  new Rectangle(15, 1736, 57, 297),
-                 new Rectangle(590, 1530, 57, 505),
+                 new Rectangle(590, 1506, 57, 505),
                  new Rectangle(2094, 1530, 57, 505),//kitch
             };
 
@@ -147,7 +152,7 @@ namespace Final_Game___Space_Conquest
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
                 Exit();
             
-            _player.Update(gameTime, walls, wallsUp, doors);
+            _player.Update(gameTime, walls, wallsUp, doors, verticalDoors);
             _camera.Update(_player.Position);
 
             Vector2 worldMousePosition = ScreenToWorld(new Vector2(mouseState.X, mouseState.Y));
@@ -163,6 +168,8 @@ namespace Final_Game___Space_Conquest
             {
                 door.Update(gameTime, mouseState, worldMousePosition);
             }
+
+
             // TODO: Add your update logic here
 
             base.Update(gameTime);
@@ -174,7 +181,7 @@ namespace Final_Game___Space_Conquest
 
             _spriteBatch.Begin(transformMatrix: _camera.Transform);
             _spriteBatch.Draw(floor, new Rectangle(0, 0, 2100, 2100), Color.White);
-            _player.Draw(_spriteBatch);
+           
 
             foreach (var door in doors)
             {
@@ -192,10 +199,9 @@ namespace Final_Game___Space_Conquest
             foreach (Rectangle wall in wallsUp)
                 _spriteBatch.Draw(wallUp, wall, Color.White);
 
+            _player.Draw(_spriteBatch);
 
             _spriteBatch.End();
-
-
 
             // TODO: Add your drawing code here
 
