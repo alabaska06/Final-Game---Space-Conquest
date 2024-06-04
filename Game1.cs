@@ -9,6 +9,7 @@ namespace Final_Game___Space_Conquest
     public class Game1 : Game
     {
         Texture2D floor, wall, wallUp;
+        Texture2D carpet;
 
         private Player _player;
         private Camera _camera;
@@ -53,24 +54,37 @@ namespace Final_Game___Space_Conquest
 
             _gameObjects = new List<GameObjects>
             {
-                new GameObjects(Content.Load<Texture2D>("table"), new Vector2(100,300)),
-                new GameObjects(Content.Load<Texture2D>("shower"), new Vector2(100, 100))
+                new GameObjects(Content.Load<Texture2D>("chair"), new Vector2(959, 949)),
+                new GameObjects(Content.Load<Texture2D>("chair"), new Vector2(1126, 940)),
+                new GameObjects(Content.Load<Texture2D>("chair"), new Vector2(1048, 1060)),
+                new GameObjects(Content.Load<Texture2D>("chair"), new Vector2(1126, 1028)),
+                new GameObjects(Content.Load<Texture2D>("chair"), new Vector2(981, 1020)),
+                new GameObjects(Content.Load<Texture2D>("chair"), new Vector2(1013, 970)),
+                new GameObjects(Content.Load<Texture2D>("table"), new Vector2(1015, 936)),
+                new GameObjects(Content.Load<Texture2D>("shower"), new Vector2(72, 1835)),
+                new GameObjects(Content.Load<Texture2D>("kitStove"), new Vector2(646, 1661)),
+                new GameObjects(Content.Load<Texture2D>("kitfridge"), new Vector2(646, 1586)),
+                new GameObjects(Content.Load<Texture2D>("kitTable"), new Vector2(885, 1758)),
+                new GameObjects(Content.Load<Texture2D>("sink"), new Vector2(313, 1832)),
+                new GameObjects(Content.Load<Texture2D>("toilet"), new Vector2(169, 1832)),
+                new GameObjects(Content.Load<Texture2D>("bench"), new Vector2 (967, 768)),
             };
 
             doors = new List<door>//horizontal
             {
-                new door(_doorTexture, new Vector2(995, 485), Vector2.UnitX, 50f),
-                new door(_doorTexture, new Vector2(1570, 443), Vector2.UnitX, 50f),
-                new door(_doorTexture, new Vector2(88, 1088), Vector2.UnitX, 50f),
-                new door(_doorTexture, new Vector2(1034, 1249), Vector2.UnitX, 50f),
-                new door(_doorTexture, new Vector2(1509, 1563), Vector2.UnitX, 50f),
+                new door(_doorTexture, new Vector2(995, 485), Vector2.UnitX, 70f),
+                new door(_doorTexture, new Vector2(1570, 443), Vector2.UnitX, 70f),
+                new door(_doorTexture, new Vector2(88, 1088), Vector2.UnitX, 70f),
+                new door(_doorTexture, new Vector2(1034, 1249), Vector2.UnitX, 70f),
+                new door(_doorTexture, new Vector2(1509, 1563), Vector2.UnitX, 70f),
+                new door(_doorTexture, new Vector2(448, 1774), Vector2.UnitX, 70f),
             };
 
             verticalDoors = new List<VerticalDoor>//vertical
             {
-                new VerticalDoor(_verticalDoorTexture, new Vector2(793, 307), Vector2.UnitY, 50f),
-                new VerticalDoor(_verticalDoorTexture, new Vector2(630, 1361), Vector2.UnitY, 50f),
-                new VerticalDoor(_verticalDoorTexture, new Vector2(1549, 1088), Vector2.UnitY, 50f),
+                new VerticalDoor(_verticalDoorTexture, new Vector2(793, 307), Vector2.UnitY, 70f),
+                new VerticalDoor(_verticalDoorTexture, new Vector2(630, 1361), Vector2.UnitY, 70f),
+                new VerticalDoor(_verticalDoorTexture, new Vector2(1549, 1088), Vector2.UnitY, 70f),
             };
 
             walls = new List<Rectangle>
@@ -105,6 +119,7 @@ namespace Final_Game___Space_Conquest
                  new Rectangle(215, 1305, 432, 57),
                  new Rectangle(15, 1979, 432, 57),
                  new Rectangle(217, 1979, 432, 57),
+                 new Rectangle(17, 1774, 432, 57),
                  new Rectangle(792, 713, 432, 57),//meet
                  new Rectangle(894, 713, 432, 57),
                  new Rectangle(792, 1248, 245, 57),
@@ -146,6 +161,7 @@ namespace Final_Game___Space_Conquest
             wallUp = Content.Load<Texture2D>("wallUp");
             _doorTexture = Content.Load<Texture2D>("doorIn");
             _verticalDoorTexture = Content.Load<Texture2D>("verticalDoor");
+            carpet = Content.Load<Texture2D>("carpet");
 
 
             _player = new Player(_playerTexture);
@@ -195,7 +211,7 @@ namespace Final_Game___Space_Conquest
 
             _spriteBatch.Begin(transformMatrix: _camera.Transform);
             _spriteBatch.Draw(floor, new Rectangle(0, 0, 2100, 2100), Color.White);
-           
+            _spriteBatch.Draw(carpet, new Rectangle(157, 1870, 280, 90), Color.White);
 
             foreach (var door in doors)
             {
