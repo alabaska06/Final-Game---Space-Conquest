@@ -57,7 +57,7 @@ namespace Final_Game___Space_Conquest
                     _isOpening = false;
                     _isClosing = true;
                 }
-
+                UpdateBoundingBox();
             }
 
             //handle door closing
@@ -86,6 +86,9 @@ namespace Final_Game___Space_Conquest
                 spriteBatch.Draw(_texture, Position, Color.White);
         }
 
-        public Rectangle BoundingBox => _boundingBox;
+        public Rectangle BoundingBox
+        {
+            get { return _boundingBox; }
+        }
 }
 }
