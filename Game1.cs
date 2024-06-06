@@ -54,12 +54,12 @@ namespace Final_Game___Space_Conquest
 
             _gameObjects = new List<GameObjects>
             {
-                new GameObjects(Content.Load<Texture2D>("chair"), new Vector2(959, 949)),
+                new GameObjects(Content.Load<Texture2D>("chair"), new Vector2(977, 961)),
                 new GameObjects(Content.Load<Texture2D>("chair"), new Vector2(1126, 940)),
                 new GameObjects(Content.Load<Texture2D>("chair"), new Vector2(1048, 1060)),
                 new GameObjects(Content.Load<Texture2D>("chair"), new Vector2(1126, 1028)),
                 new GameObjects(Content.Load<Texture2D>("chair"), new Vector2(981, 1020)),
-                new GameObjects(Content.Load<Texture2D>("chair"), new Vector2(1013, 970)),
+                new GameObjects(Content.Load<Texture2D>("chair"), new Vector2(1040, 917)),
                 new GameObjects(Content.Load<Texture2D>("table"), new Vector2(1015, 936)),
                 new GameObjects(Content.Load<Texture2D>("shower"), new Vector2(72, 1835)),
                 new GameObjects(Content.Load<Texture2D>("kitStove"), new Vector2(646, 1661)),
@@ -68,6 +68,20 @@ namespace Final_Game___Space_Conquest
                 new GameObjects(Content.Load<Texture2D>("sink"), new Vector2(313, 1832)),
                 new GameObjects(Content.Load<Texture2D>("toilet"), new Vector2(169, 1832)),
                 new GameObjects(Content.Load<Texture2D>("bench"), new Vector2 (967, 768)),
+                new GameObjects(Content.Load<Texture2D>("barChair"), new Vector2(1527, 1800)),
+                new GameObjects(Content.Load<Texture2D>("barChair"), new Vector2(1636, 1846)),
+                new GameObjects(Content.Load<Texture2D>("barChair"), new Vector2(1733, 1846)),
+                new GameObjects(Content.Load<Texture2D>("barChair"), new Vector2(1816, 1827)),
+                new GameObjects(Content.Load<Texture2D>("barChair"), new Vector2(1930, 1816)),
+                new GameObjects(Content.Load<Texture2D>("barChair"), new Vector2(2008, 1846)),
+                new GameObjects(Content.Load<Texture2D>("bar"), new Vector2(1494, 1863)),
+                new GameObjects(Content.Load<Texture2D>("console"), new Vector2(929, 30)),
+                new GameObjects(Content.Load<Texture2D>("consoleChairs"), new Vector2 (1022, 127)),
+                new GameObjects(Content.Load<Texture2D>("consoleChairs"), new Vector2 (851, 152)),
+                new GameObjects(Content.Load<Texture2D>("consoleChairs"), new Vector2 (961, 231)),
+                new GameObjects(Content.Load<Texture2D>("consoleChairs"), new Vector2 (1099, 231)),
+                new GameObjects(Content.Load<Texture2D>("consoleChairs"), new Vector2 (1209, 152)),
+                
             };
 
             doors = new List<door>//horizontal
