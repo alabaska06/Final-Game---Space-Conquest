@@ -75,13 +75,18 @@ namespace Final_Game___Space_Conquest
                 new GameObjects(Content.Load<Texture2D>("barChair"), new Vector2(1930, 1816)),
                 new GameObjects(Content.Load<Texture2D>("barChair"), new Vector2(2008, 1846)),
                 new GameObjects(Content.Load<Texture2D>("bar"), new Vector2(1494, 1863)),
-                new GameObjects(Content.Load<Texture2D>("console"), new Vector2(929, 30)),
+                new GameObjects(Content.Load<Texture2D>("console"), new Vector2(933, 30)),
                 new GameObjects(Content.Load<Texture2D>("consoleChairs"), new Vector2 (1022, 127)),
-                new GameObjects(Content.Load<Texture2D>("consoleChairs"), new Vector2 (851, 152)),
-                new GameObjects(Content.Load<Texture2D>("consoleChairs"), new Vector2 (961, 231)),
-                new GameObjects(Content.Load<Texture2D>("consoleChairs"), new Vector2 (1099, 231)),
-                new GameObjects(Content.Load<Texture2D>("consoleChairs"), new Vector2 (1209, 152)),
-                
+                new GameObjects(Content.Load<Texture2D>("consoleChair"), new Vector2 (840, 152)),
+                new GameObjects(Content.Load<Texture2D>("consoleChair"), new Vector2 (970, 245)),
+                new GameObjects(Content.Load<Texture2D>("consoleChair"), new Vector2 (1099, 245)),
+                new GameObjects(Content.Load<Texture2D>("consoleChair"), new Vector2 (1240, 152)),
+                new GameObjects(Content.Load<Texture2D>("bed"), new Vector2 (71, 1358)),
+                new GameObjects(Content.Load<Texture2D>("bed"), new Vector2 (216, 1358)),
+                new GameObjects(Content.Load<Texture2D>("bed"), new Vector2 (347, 1358)),
+                new GameObjects(Content.Load<Texture2D>("bedDown"), new Vector2 (71, 1591)),
+                new GameObjects(Content.Load<Texture2D>("bedDown"), new Vector2 (216, 1591)),
+
             };
 
             doors = new List<door>//horizontal
@@ -226,6 +231,7 @@ namespace Final_Game___Space_Conquest
             _spriteBatch.Begin(transformMatrix: _camera.Transform);
             _spriteBatch.Draw(floor, new Rectangle(0, 0, 2100, 2100), Color.White);
             _spriteBatch.Draw(carpet, new Rectangle(157, 1870, 280, 90), Color.White);
+
 
             foreach (var door in doors)
             {
