@@ -14,17 +14,21 @@ namespace Final_Game___Space_Conquest
         {
             public Vector2 Position;
             private Texture2D _texture;
+            private Texture2D _texture2;
             private float _speed;
             private float _rotation;
+            Rectangle exitRect;
 
             public Rectangle BoundingBox;
 
-            public Player(Texture2D texture)
+            public Player(Texture2D texture, Texture2D exitTexture)
             {
                 _texture = texture;
-                Position = Vector2.Zero;
+                _texture2 = exitTexture;
+                Position = new Vector2(1034, 319);
                 _speed = 6f;
                 _rotation = 0f;
+                exitRect = new Rectangle(170, 500, 65, 165);
                 UpdateBoundingBox();
             }
 
@@ -112,11 +116,12 @@ namespace Final_Game___Space_Conquest
             return false;
         }
 
-        public void Draw(SpriteBatch spriteBatch)
+        public void Draw(SpriteBatch spriteBatch, SpriteBatch spriteBatch2)
         {
             Vector2 origin = new Vector2(_texture.Width / 2, _texture.Height / 2);
                 
             spriteBatch.Draw(_texture, new Vector2(Position.X + origin.X, Position.Y + origin.Y), null, Color.White, _rotation, origin, 1.0f, SpriteEffects.None, 0f);
+            spriteBatch2.Draw(_texture2, exitRect, Color.White);
         }
 
         }

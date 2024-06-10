@@ -11,10 +11,14 @@ namespace Final_Game___Space_Conquest
         Texture2D floor, wall, wallUp;
         Texture2D carpet;
 
+        
+        
+
         private Player _player;
         private Camera _camera;
 
         private Texture2D _playerTexture;
+        private Texture2D _exitTexture;
 
         private Texture2D _doorTexture;
         private Texture2D _verticalDoorTexture;
@@ -23,7 +27,8 @@ namespace Final_Game___Space_Conquest
 
 
         private GraphicsDeviceManager _graphics;
-        private SpriteBatch _spriteBatch;
+        private SpriteBatch _spriteBatch;//player
+        private SpriteBatch _spriteBatch2;//exit doors
 
         List<Rectangle> walls;
 
@@ -51,6 +56,8 @@ namespace Final_Game___Space_Conquest
             _graphics.ApplyChanges();
 
             base.Initialize();
+
+            
 
             _gameObjects = new List<GameObjects>
             {
@@ -86,6 +93,7 @@ namespace Final_Game___Space_Conquest
                 new GameObjects(Content.Load<Texture2D>("bed"), new Vector2 (347, 1358)),
                 new GameObjects(Content.Load<Texture2D>("bedDown"), new Vector2 (71, 1591)),
                 new GameObjects(Content.Load<Texture2D>("bedDown"), new Vector2 (216, 1591)),
+                new GameObjects(Content.Load<Texture2D>("rover"), new Vector2(1726, 825)),
 
             };
 
@@ -181,9 +189,10 @@ namespace Final_Game___Space_Conquest
             _doorTexture = Content.Load<Texture2D>("doorIn");
             _verticalDoorTexture = Content.Load<Texture2D>("verticalDoor");
             carpet = Content.Load<Texture2D>("carpet");
+            _exitTexture = Content.Load<Texture2D>("bluewall");
 
 
-            _player = new Player(_playerTexture);
+            _player = new Player(_playerTexture, _exitTexture);
             _camera = new Camera(GraphicsDevice.Viewport);
 
 
@@ -218,6 +227,7 @@ namespace Final_Game___Space_Conquest
                 gameObject.Update(gameTime);
             }
 
+           
 
             // TODO: Add your update logic here
 
@@ -231,6 +241,7 @@ namespace Final_Game___Space_Conquest
             _spriteBatch.Begin(transformMatrix: _camera.Transform);
             _spriteBatch.Draw(floor, new Rectangle(0, 0, 2100, 2100), Color.White);
             _spriteBatch.Draw(carpet, new Rectangle(157, 1870, 280, 90), Color.White);
+           
 
 
             foreach (var door in doors)
@@ -254,7 +265,7 @@ namespace Final_Game___Space_Conquest
             foreach (Rectangle wall in wallsUp)
                 _spriteBatch.Draw(wallUp, wall, Color.White);
 
-            _player.Draw(_spriteBatch);
+            _player.Draw(_spriteBatch, _spriteBatch2);
 
             _spriteBatch.End();
 
