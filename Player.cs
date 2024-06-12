@@ -15,27 +15,31 @@ namespace Final_Game___Space_Conquest
             public Vector2 Position;
             private Texture2D _texture;
             private Texture2D _texture2;
+            private Texture2D _texture3;
             private float _speed;
             private float _rotation;
-            Rectangle exitRect;
+            Rectangle exitRect, exitRect2, exitRect3;
 
             public Rectangle BoundingBox;
 
-            public Player(Texture2D texture, Texture2D exitTexture)
+            public Player(Texture2D texture, Texture2D exitTexture, Texture2D exitTexture2)
             {
                 _texture = texture;
                 _texture2 = exitTexture;
+                _texture3 = exitTexture2;
                 Position = new Vector2(1034, 319);
                 _speed = 6f;
                 _rotation = 0f;
-                exitRect = new Rectangle(170, 500, 65, 165);
+               
                 UpdateBoundingBox();
             }
 
             public void Update(GameTime gameTime, List<Rectangle> walls, List<Rectangle> wallsUp, List<door> doors, List<VerticalDoor> verticalDoors, List<GameObjects> gameObjects)
             {
                 KeyboardState state = Keyboard.GetState();
-
+                exitRect = new Rectangle(170, 500, 65, 165);
+                exitRect2 = new Rectangle(-40, 1136, 65, 165);
+                exitRect3 = new Rectangle(1978, 3282, 65, 165);
                 Vector2 direction = Vector2.Zero;
 
                 if (state.IsKeyDown(Keys.W))
@@ -60,6 +64,12 @@ namespace Final_Game___Space_Conquest
                         UpdateBoundingBox();
                     }
                 }
+            if (exitRect.Contains(BoundingBox) || exitRect2.Contains(BoundingBox))
+            {
+                Game1.self.Exit();
+            }
+                  
+
             }
 
         private bool IsCollidingWithWalls(Rectangle newBoundingBox, List<Rectangle> walls, List<Rectangle> wallsUp)
@@ -116,13 +126,26 @@ namespace Final_Game___Space_Conquest
             return false;
         }
 
-        public void Draw(SpriteBatch spriteBatch, SpriteBatch spriteBatch2)
+        public void Draw(SpriteBatch spriteBatch)
         {
             Vector2 origin = new Vector2(_texture.Width / 2, _texture.Height / 2);
                 
             spriteBatch.Draw(_texture, new Vector2(Position.X + origin.X, Position.Y + origin.Y), null, Color.White, _rotation, origin, 1.0f, SpriteEffects.None, 0f);
-            spriteBatch2.Draw(_texture2, exitRect, Color.White);
+            
         }
+        public void DrawTexture(SpriteBatch spriteBatch, SpriteBatch spriteBatch2)
+        {
+            spriteBatch.Draw(_texture2, exitRect, Color.White);
+            spriteBatch2.Draw(_texture2, exitRect2, Color.White);
+            
+        }
+        public void DrawTextureRight(SpriteBatch spriteBatch, SpriteBatch spriteBatch2)
+        {
+            spriteBatch.Draw(_texture3, exitRect3, Color.White);
+            spriteBatch2.Draw(_texture3, exitRect3, Color.White);
+
+        }
+        
 
         }
     }

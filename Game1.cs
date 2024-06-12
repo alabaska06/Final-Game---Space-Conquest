@@ -11,14 +11,15 @@ namespace Final_Game___Space_Conquest
         Texture2D floor, wall, wallUp;
         Texture2D carpet;
 
-        
-        
+        public static Game1 self;
+
 
         private Player _player;
         private Camera _camera;
 
         private Texture2D _playerTexture;
         private Texture2D _exitTexture;
+        private Texture2D _exitTexture2;
 
         private Texture2D _doorTexture;
         private Texture2D _verticalDoorTexture;
@@ -27,8 +28,8 @@ namespace Final_Game___Space_Conquest
 
 
         private GraphicsDeviceManager _graphics;
-        private SpriteBatch _spriteBatch;//player
-        private SpriteBatch _spriteBatch2;//exit doors
+        private SpriteBatch _spriteBatch;
+
 
         List<Rectangle> walls;
 
@@ -45,6 +46,7 @@ namespace Final_Game___Space_Conquest
             _graphics = new GraphicsDeviceManager(this);
             Content.RootDirectory = "Content";
             IsMouseVisible = true;
+            self = this;
         }
 
         protected override void Initialize()
@@ -189,10 +191,11 @@ namespace Final_Game___Space_Conquest
             _doorTexture = Content.Load<Texture2D>("doorIn");
             _verticalDoorTexture = Content.Load<Texture2D>("verticalDoor");
             carpet = Content.Load<Texture2D>("carpet");
-            _exitTexture = Content.Load<Texture2D>("bluewall");
+            _exitTexture = Content.Load<Texture2D>("EXIT");
+            _exitTexture2 = Content.Load<Texture2D>("EXIT2");
 
 
-            _player = new Player(_playerTexture, _exitTexture);
+            _player = new Player(_playerTexture, _exitTexture, _exitTexture2);
             _camera = new Camera(GraphicsDevice.Viewport);
 
 
@@ -236,7 +239,7 @@ namespace Final_Game___Space_Conquest
 
         protected override void Draw(GameTime gameTime)
         {
-            GraphicsDevice.Clear(Color.CornflowerBlue);
+            GraphicsDevice.Clear(Color.Black);
 
             _spriteBatch.Begin(transformMatrix: _camera.Transform);
             _spriteBatch.Draw(floor, new Rectangle(0, 0, 2100, 2100), Color.White);
@@ -265,8 +268,9 @@ namespace Final_Game___Space_Conquest
             foreach (Rectangle wall in wallsUp)
                 _spriteBatch.Draw(wallUp, wall, Color.White);
 
-            _player.Draw(_spriteBatch, _spriteBatch2);
-
+            _player.Draw(_spriteBatch);
+            _player.DrawTexture(_spriteBatch, _spriteBatch);
+            _player.DrawTextureRight(_spriteBatch, _spriteBatch);
             _spriteBatch.End();
 
             // TODO: Add your drawing code here
