@@ -14,11 +14,14 @@ namespace Final_Game___Space_Conquest
         {
             public Vector2 Position;
             private Texture2D _texture;
-            private Texture2D _texture2;
-            private Texture2D _texture3;
+            private Texture2D _texture2;//takes exit for left
+            private Texture2D _texture3;//takes exit for right
             private float _speed;
             private float _rotation;
-            Rectangle exitRect, exitRect2, exitRect3;
+            Rectangle exitRect, exitRect2;
+            
+            List<Rectangle> ExitRects;
+
 
             public Rectangle BoundingBox;
 
@@ -38,8 +41,14 @@ namespace Final_Game___Space_Conquest
             {
                 KeyboardState state = Keyboard.GetState();
                 exitRect = new Rectangle(170, 500, 65, 165);
-                exitRect2 = new Rectangle(-40, 1136, 65, 165);
-                exitRect3 = new Rectangle(1978, 3282, 65, 165);
+
+                ExitRects = new List<Rectangle>
+                {
+                    new Rectangle(-40, 1136, 65, 165),
+                    new Rectangle(1978, 500, 65, 165),
+                    new Rectangle(2099, 1400, 65, 165),
+                };
+                    
                 Vector2 direction = Vector2.Zero;
 
                 if (state.IsKeyDown(Keys.W))
@@ -64,9 +73,16 @@ namespace Final_Game___Space_Conquest
                         UpdateBoundingBox();
                     }
                 }
-            if (exitRect.Contains(BoundingBox) || exitRect2.Contains(BoundingBox))
+            if (exitRect.Contains(BoundingBox))
             {
                 Game1.self.Exit();
+            }
+            for (int i = 0; i < ExitRects.Count; i++)
+            {
+                if (ExitRects[i].Contains(BoundingBox))
+                {
+                    Game1.self.Exit();
+                }
             }
                   
 
@@ -139,10 +155,14 @@ namespace Final_Game___Space_Conquest
             spriteBatch2.Draw(_texture2, exitRect2, Color.White);
             
         }
-        public void DrawTextureRight(SpriteBatch spriteBatch, SpriteBatch spriteBatch2)
+        public void DrawTextureRight(SpriteBatch spriteBatch)
         {
-            spriteBatch.Draw(_texture3, exitRect3, Color.White);
-            spriteBatch2.Draw(_texture3, exitRect3, Color.White);
+            foreach (Rectangle exit in ExitRects)
+            {
+                spriteBatch.Draw(_texture3, exit, Color.White);
+            }
+                
+            
 
         }
         

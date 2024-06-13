@@ -270,7 +270,7 @@ namespace Final_Game___Space_Conquest
 
             _player.Draw(_spriteBatch);
             _player.DrawTexture(_spriteBatch, _spriteBatch);
-            _player.DrawTextureRight(_spriteBatch, _spriteBatch);
+            _player.DrawTextureRight(_spriteBatch);
             _spriteBatch.End();
 
             // TODO: Add your drawing code here
