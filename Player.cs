@@ -161,11 +161,7 @@ namespace Final_Game___Space_Conquest
             {
                 spriteBatch.Draw(_texture3, exit, Color.White);
             }
-                
-            
-
         }
-        
 
         }
     }
