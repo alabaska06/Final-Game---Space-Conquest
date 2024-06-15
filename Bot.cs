@@ -7,7 +7,7 @@ using System.Collections.Generic;
 
 namespace Final_Game___Space_Conquest
 {
-    internal class Bot
+    public class Bot
 {
 
         public Vector2 Position;
@@ -22,7 +22,7 @@ namespace Final_Game___Space_Conquest
         private List<Projectile> _projectiles;
         private Texture2D _projectileTexture;
         private double _shootTimer;
-        private double _shootInterval = 1.0;//in seconds
+        private double _shootInterval = 1.5;//in seconds
         
         public Bot(Texture2D texture, Vector2 position, Texture2D projectileTexture, Player player)
         {
@@ -35,11 +35,13 @@ namespace Final_Game___Space_Conquest
             _projectileTexture = projectileTexture;
             UpdateBoundingBox();
         }
-        public void Update(GameTime gameTime, Camera camera)
+        public void Update(GameTime gameTime, Camera camera, List<Rectangle> walls, List<Rectangle> wallsUp, List<door> doors, List<VerticalDoor> verticalDoors, List<Bot> bots, List<GameObjects> gameObjects)
         {
+            // check if bot is within the players viewport
             if (IsPlayerinViewport(camera))
             {
-                MoveTowardsPlayer(gameTime);
+                //follow the player
+                MoveTowardsPlayer(gameTime, walls, wallsUp, doors, verticalDoors, bots, gameObjects);
                 Shoot(gameTime);
             }
             UpdateProjectiles(gameTime);
@@ -55,15 +57,84 @@ namespace Final_Game___Space_Conquest
 
             return viewport.Contains(_player.Position);
         }
-        private void MoveTowardsPlayer(GameTime gameTime)
+        private void MoveTowardsPlayer(GameTime gameTime, List<Rectangle> walls, List<Rectangle> wallsUp, List<door> doors, List<VerticalDoor> verticalDoors, List<Bot> bots, List<GameObjects> gameObjects)
         {
             Vector2 direction = _player.Position - Position;
             if (direction != Vector2.Zero)
             {
                 direction.Normalize();
-                Position += direction * _speed;
-                _rotation = (float)Math.Atan2(direction.Y, direction.X);
+                Vector2 newPosition = Position + direction * _speed;
+                Rectangle newBoundingBox = new Rectangle((int)newPosition.X, (int)newPosition.Y, _boundingBox.Width, _boundingBox.Height);
+
+                if (!IsCollidingWithWalls(newBoundingBox, walls, wallsUp) && !IsCollidingWithBots(newBoundingBox, bots) && !IsCollidingWithGameObjects(newBoundingBox, gameObjects) && !IsCollidingWithPlayer(newBoundingBox) && !IsCollidingWithDoors(newBoundingBox, doors, verticalDoors))
+                {
+                    Position = newPosition;
+                    _rotation = (float)Math.Atan2(direction.Y, direction.X);
+                }
+               
             }
+        }
+        private bool IsCollidingWithWalls(Rectangle newBoundingBox, List<Rectangle> walls, List<Rectangle> wallsUp)
+        {
+            foreach (Rectangle wall in walls)
+            {
+                if (newBoundingBox.Intersects(wall))
+                {
+                    return true;
+                }
+            }
+            foreach (Rectangle wall in wallsUp)
+            {
+                if (newBoundingBox.Intersects(wall))
+                {
+                    return true;
+                }
+            }
+            return false;
+        }
+        private bool IsCollidingWithDoors(Rectangle newBoundingBox, List<door> doors, List<VerticalDoor> verticalDoors)
+        {
+            foreach (door door in doors)
+            {
+                if (newBoundingBox.Intersects(door.BoundingBox))
+                {
+                    return true;
+                }
+            }
+            foreach (VerticalDoor verticalDoor in verticalDoors)
+            {
+                if (newBoundingBox.Intersects(verticalDoor.BoundingBox))
+                {
+                    return true;
+                }
+            }
+            return false;
+        }
+        private bool IsCollidingWithBots(Rectangle newBoundingBox, List<Bot> bots)
+        {
+            foreach (Bot bot in bots)
+            {
+                if (bot != this && newBoundingBox.Intersects(bot.BoundingBox))
+                {
+                    return true;
+                }
+            }
+            return false;
+        }
+        private bool IsCollidingWithGameObjects(Rectangle newBoundingBox, List<GameObjects> gameObjects)
+        {
+            foreach (GameObjects gameObject in gameObjects)
+            {
+                if (newBoundingBox.Intersects(gameObject.BoundingBox))
+                {
+                    return true;
+                }
+            }
+            return false;
+        }
+        private bool IsCollidingWithPlayer(Rectangle newBoundingBox)
+        {
+            return newBoundingBox.Intersects(_player.BoundingBox);
         }
         private void Shoot(GameTime gameTime)
         {

@@ -13,7 +13,7 @@ namespace Final_Game___Space_Conquest
 
         public static Game1 self;
 
-        private List<Bot> _bots;
+        public List<Bot> _bots;
         private Texture2D _botTexture;
         private Texture2D _projectileTexture;
 
@@ -219,12 +219,12 @@ namespace Final_Game___Space_Conquest
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
                 Exit();
             
-            _player.Update(gameTime, walls, wallsUp, doors, verticalDoors, _gameObjects);
+            _player.Update(gameTime, walls, wallsUp, doors, verticalDoors, _gameObjects, _bots);
             _camera.Update(_player.Position);
 
             foreach (var bot in _bots)
             {
-                bot.Update(gameTime, _camera);
+                bot.Update(gameTime, _camera, walls, wallsUp, doors, verticalDoors, _bots, _gameObjects);
             }
 
             Vector2 worldMousePosition = ScreenToWorld(new Vector2(mouseState.X, mouseState.Y));

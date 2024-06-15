@@ -33,7 +33,7 @@ namespace Final_Game___Space_Conquest
                 UpdateBoundingBox();
             }
 
-            public void Update(GameTime gameTime, List<Rectangle> walls, List<Rectangle> wallsUp, List<door> doors, List<VerticalDoor> verticalDoors, List<GameObjects> gameObjects)
+            public void Update(GameTime gameTime, List<Rectangle> walls, List<Rectangle> wallsUp, List<door> doors, List<VerticalDoor> verticalDoors, List<GameObjects> gameObjects, List<Bot> bots)
             {
                 KeyboardState state = Keyboard.GetState();
                 exitRect = new Rectangle(170, 500, 65, 165);
@@ -62,7 +62,7 @@ namespace Final_Game___Space_Conquest
                     Vector2 newPosition = Position + direction * _speed;
                     Rectangle newBoundingBox = new Rectangle((int)newPosition.X, (int)newPosition.Y, BoundingBox.Width, BoundingBox.Height);
 
-                    if (!IsCollidingWithWalls(newBoundingBox, walls, wallsUp) && !IsCollidingWithDoors(newBoundingBox, doors, verticalDoors) && !IsCollidingWithGameObjects(newBoundingBox, gameObjects))
+                    if (!IsCollidingWithWalls(newBoundingBox, walls, wallsUp) && !IsCollidingWithDoors(newBoundingBox, doors, verticalDoors) && !IsCollidingWithGameObjects(newBoundingBox, gameObjects) && !IsCollidingWithBots(newBoundingBox, bots))
                     {
                         Position = newPosition;
                         _rotation = (float)Math.Atan2(direction.Y, direction.X);
@@ -121,6 +121,7 @@ namespace Final_Game___Space_Conquest
             }
             return false;
         }
+      
         private void UpdateBoundingBox()
         {
             BoundingBox = new Rectangle((int)Position.X, (int)Position.Y, _texture.Width, _texture.Height);
@@ -137,6 +138,18 @@ namespace Final_Game___Space_Conquest
             }
             return false;
         }
+        private bool IsCollidingWithBots(Rectangle newBoundingBox, List<Bot> bots)
+        {
+            foreach (Bot bot in bots)
+            {
+                if (newBoundingBox.Intersects(bot.BoundingBox))
+                {
+                    return true;
+                }
+            }
+            return false;
+        }
+      
 
         public void Draw(SpriteBatch spriteBatch)
         {
