@@ -2,7 +2,7 @@
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using System.Collections.Generic;
-using System.Threading;
+
 
 namespace Final_Game___Space_Conquest
 {
@@ -16,6 +16,7 @@ namespace Final_Game___Space_Conquest
 
         private Player _player;
         private Camera _camera;
+
 
         private Texture2D _playerTexture;
         private Texture2D _exitTexture;
@@ -59,8 +60,7 @@ namespace Final_Game___Space_Conquest
 
             base.Initialize();
 
-            
-
+  
             _gameObjects = new List<GameObjects>
             {
                 new GameObjects(Content.Load<Texture2D>("chair"), new Vector2(977, 961)),
