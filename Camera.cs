@@ -21,6 +21,9 @@ namespace Final_Game___Space_Conquest
             Transform = Matrix.CreateTranslation(new Vector3(-_center, 0));
         }
 
+        public int ViewportWidth => _viewport.Width;
+        public int ViewportHeight => _viewport.Height;
+
     }
 }
 

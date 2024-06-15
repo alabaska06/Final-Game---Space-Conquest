@@ -13,6 +13,9 @@ namespace Final_Game___Space_Conquest
 
         public static Game1 self;
 
+        private List<Bot> _bots;
+        private Texture2D _botTexture;
+        private Texture2D _projectileTexture;
 
         private Player _player;
         private Camera _camera;
@@ -59,6 +62,12 @@ namespace Final_Game___Space_Conquest
             _graphics.ApplyChanges();
 
             base.Initialize();
+
+             _bots = new List<Bot>
+            {
+                new Bot(_botTexture, new Vector2(200, 200), _projectileTexture, _player),
+                new Bot(_botTexture, new Vector2(500, 500), _projectileTexture, _player),
+            };
 
   
             _gameObjects = new List<GameObjects>
@@ -193,6 +202,8 @@ namespace Final_Game___Space_Conquest
             carpet = Content.Load<Texture2D>("carpet");
             _exitTexture = Content.Load<Texture2D>("EXIT");
             _exitTexture2 = Content.Load<Texture2D>("EXIT2");
+            _botTexture = Content.Load<Texture2D>("alienTest");
+            _projectileTexture = Content.Load<Texture2D>("projectile");
 
 
             _player = new Player(_playerTexture, _exitTexture, _exitTexture2);
@@ -210,6 +221,11 @@ namespace Final_Game___Space_Conquest
             
             _player.Update(gameTime, walls, wallsUp, doors, verticalDoors, _gameObjects);
             _camera.Update(_player.Position);
+
+            foreach (var bot in _bots)
+            {
+                bot.Update(gameTime, _camera);
+            }
 
             Vector2 worldMousePosition = ScreenToWorld(new Vector2(mouseState.X, mouseState.Y));
 
@@ -245,7 +261,10 @@ namespace Final_Game___Space_Conquest
             _spriteBatch.Draw(floor, new Rectangle(0, 0, 2100, 2100), Color.White);
             _spriteBatch.Draw(carpet, new Rectangle(157, 1870, 280, 90), Color.White);
            
-
+            foreach (var bot in _bots)
+            {
+                bot.Draw(_spriteBatch);
+            }
 
             foreach (var door in doors)
             {
