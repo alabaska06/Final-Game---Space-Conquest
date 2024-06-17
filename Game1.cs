@@ -76,8 +76,8 @@ namespace Final_Game___Space_Conquest
 
              _bots = new List<Bot>
             {
-                new Bot(_botTexture, greyhealthTexture, new Vector2(200, 200), _projectileTexture, _player),
-                new Bot(_botTexture, greyhealthTexture, new Vector2(500, 500), _projectileTexture, _player),
+                new Bot(_botTexture, greyhealthTexture, new Vector2(200, 200), _player),
+                new Bot(_botTexture, greyhealthTexture, new Vector2(500, 500), _player),
             };
 
   
@@ -242,15 +242,20 @@ namespace Final_Game___Space_Conquest
             foreach (var bot in _bots)
             {
                 bot.Update(gameTime, _camera, walls, wallsUp, doors, verticalDoors, _bots, _gameObjects, _projectiles);
-                if (gameTime.TotalGameTime.TotalSeconds - bot.TimeSinceLastShot > bot.ShootInterval)
-                {
-                    bot.Shoot(_projectiles);
-                    bot.TimeSinceLastShot = gameTime.TotalGameTime.TotalSeconds;
-                }
+                
             }
+            //foreach (Projectile projectile in _projectiles)
+            //{
+            //    projectile.Update(gameTime, walls, wallsUp, doors, verticalDoors, _gameObjects, _bots);
+            //    if (gameTime.TotalGameTime.TotalSeconds - projectile.TimeSinceLastShot > projectile.ShootInterval)
+            //    {
+
+            //        projectile.TimeSinceLastShot = gameTime.TotalGameTime.TotalSeconds;
+            //    }
+            //}
             foreach (Projectile projectile in _projectiles)
             {
-                projectile.Update(gameTime, walls, wallsUp, doors, verticalDoors, _gameObjects);
+                projectile.Update(gameTime, walls, wallsUp, doors, verticalDoors, _gameObjects, _bots);
             }
 
             Vector2 worldMousePosition = ScreenToWorld(new Vector2(mouseState.X, mouseState.Y));
@@ -291,10 +296,10 @@ namespace Final_Game___Space_Conquest
             {
                 bot.Draw(_spriteBatch);
             }
-            foreach (Projectile projectile in _projectiles)
-            {
-                projectile.Draw(_spriteBatch);
-            }
+            //foreach (Projectile projectile in _projectiles)
+            //{
+            //    projectile.Draw(_spriteBatch);
+            //}
 
             foreach (var door in doors)
             {
