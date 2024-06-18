@@ -17,11 +17,8 @@ namespace Final_Game___Space_Conquest
         private Texture2D _botTexture;
         private Texture2D _projectileTexture;
 
-        public List<Projectile> _projectiles;
-
         private Player _player;
         private Camera _camera;
-
 
         private Texture2D _playerTexture;
         private Texture2D _exitTexture;
@@ -41,7 +38,6 @@ namespace Final_Game___Space_Conquest
 
         private GraphicsDeviceManager _graphics;
         private SpriteBatch _spriteBatch;
-
 
         List<Rectangle> walls;
 
@@ -70,14 +66,12 @@ namespace Final_Game___Space_Conquest
             _graphics.PreferredBackBufferHeight = 500;
             _graphics.ApplyChanges();
 
-            _projectiles = new List<Projectile>();
-
             base.Initialize();
 
              _bots = new List<Bot>
             {
-                new Bot(_botTexture, greyhealthTexture, new Vector2(200, 200), _player),
-                new Bot(_botTexture, greyhealthTexture, new Vector2(500, 500), _player),
+                new Bot(_botTexture, greyhealthTexture, new Vector2(200, 200), _player, _projectileTexture),
+                new Bot(_botTexture, greyhealthTexture, new Vector2(500, 500), _player, _projectileTexture),
             };
 
   
@@ -239,17 +233,19 @@ namespace Final_Game___Space_Conquest
             _player.Update(gameTime, walls, wallsUp, doors, verticalDoors, _gameObjects, _bots);
             _camera.Update(_player.Position);
 
-            
-
             foreach (var bot in _bots)
             {
-                bot.Update(gameTime, _camera, walls, wallsUp, doors, verticalDoors, _bots, _gameObjects, _projectiles);
+                bot.Update(gameTime, _camera, walls, wallsUp, doors, verticalDoors, _bots, _gameObjects);
                 
-            }
-
-            foreach (Projectile projectile in _projectiles)
-            {
-                projectile.Update(gameTime, walls, wallsUp, doors, verticalDoors, _gameObjects, _bots);
+                foreach (var projectile in bot.Projectiles)
+                {
+                    if (projectile.BoundingBox.Intersects(_player.BoundingBox))
+                    {
+                        _player.TakeDamage(1);
+                        bot.Projectiles.Remove(projectile);
+                        break;
+                    }
+                }
             }
 
             Vector2 worldMousePosition = ScreenToWorld(new Vector2(mouseState.X, mouseState.Y));
@@ -290,10 +286,6 @@ namespace Final_Game___Space_Conquest
             {
                 bot.Draw(_spriteBatch);
             }
-            //foreach (Projectile projectile in _projectiles)
-            //{
-            //    projectile.Draw(_spriteBatch);
-            //}
 
             foreach (var door in doors)
             {

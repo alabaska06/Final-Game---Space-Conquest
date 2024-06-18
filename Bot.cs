@@ -20,13 +20,18 @@ namespace Final_Game___Space_Conquest
         private float _rotation;
         private Rectangle _boundingBox;
 
+        //projectiles
+        private List<Projectile> _projectiles;
+        private Texture2D _projectileTexture;
+        private TimeSpan _shootCoolDown;
+        private TimeSpan _lastShootTime;
+
+        public List<Projectile> Projectiles => _projectiles;
         public Rectangle BoundingBox => _boundingBox;
 
-
         private Player _player;
-       
 
-        public Bot(Texture2D texture, Texture2D healthBartexture, Vector2 position, Player player, int maxHealth = 5)
+        public Bot(Texture2D texture, Texture2D healthBartexture, Vector2 position, Player player, Texture2D projectileTexture, int maxHealth = 5)
         {
             _texture = texture;
             _healthBarTexture = healthBartexture;
@@ -36,11 +41,17 @@ namespace Final_Game___Space_Conquest
             _speed = 2f;
             _rotation = 0f;
             _player = player;
+
+            //projectiles
+            _projectileTexture = projectileTexture;
+            _projectiles = new List<Projectile>();
+            _shootCoolDown = TimeSpan.FromSeconds(2);
+            _lastShootTime = TimeSpan.Zero;
     
             UpdateBoundingBox();
         }
        
-        public void Update(GameTime gameTime, Camera camera, List<Rectangle> walls, List<Rectangle> wallsUp, List<door> doors, List<VerticalDoor> verticalDoors, List<Bot> bots, List<GameObjects> gameObjects, List<Projectile> projectiles)
+        public void Update(GameTime gameTime, Camera camera, List<Rectangle> walls, List<Rectangle> wallsUp, List<door> doors, List<VerticalDoor> verticalDoors, List<Bot> bots, List<GameObjects> gameObjects)
         {
             // check if bot is within the players viewport
             if (IsPlayerinViewport(camera))
@@ -48,7 +59,17 @@ namespace Final_Game___Space_Conquest
                 //follow the player
                 MoveTowardsPlayer(gameTime, walls, wallsUp, doors, verticalDoors, bots, gameObjects);
                 
+                if (gameTime.TotalGameTime - _lastShootTime > _shootCoolDown)
+                {
+                    ShootAtPlayer();
+                    _lastShootTime = gameTime.TotalGameTime;
+                }
             }
+            foreach (var projectile in _projectiles)
+            {
+                projectile.Update(gameTime);
+            }
+            
             UpdateBoundingBox();
         }
         private bool IsPlayerinViewport(Camera camera)
@@ -166,31 +187,45 @@ namespace Final_Game___Space_Conquest
             Vector2 origin = new Vector2(_texture.Width / 2, _texture.Height / 2);
             spriteBatch.Draw(_texture, new Vector2(Position.X + origin.X, Position.Y + origin.Y), null, Color.White, _rotation, origin, 1.0f, SpriteEffects.None, 0f);
 
-            //DrawHealthBar(spriteBatch);
+            foreach (var projectile in _projectiles)
+            {
+                projectile.Draw(spriteBatch);
+            }
+            DrawHealthBar(spriteBatch);
         }
-        //private void DrawHealthBar(SpriteBatch spriteBatch)
-        //{
+        private void DrawHealthBar(SpriteBatch spriteBatch)
+        {
 
-        //    int healthBarWidth = 50;
-        //    int healthBarHeight = 5;
-        //    Vector2 healthBarPosition = new Vector2(Position.X + (_texture.Width / 2) - (healthBarHeight / 2), Position.Y - 10);
+            int healthBarWidth = 50;
+            int healthBarHeight = 5;
+            Vector2 healthBarPosition = new Vector2(Position.X + (_texture.Width / 2) - (healthBarHeight / 2), Position.Y - 10);
 
-        //    Rectangle healthBarRectangle = new Rectangle((int)healthBarPosition.X, (int)healthBarPosition.Y, healthBarWidth, healthBarHeight);
-        //    spriteBatch.Draw(_healthBarTexture, healthBarRectangle, Color.White);
+            Rectangle healthBarRectangle = new Rectangle((int)healthBarPosition.X, (int)healthBarPosition.Y, healthBarWidth, healthBarHeight);
+            spriteBatch.Draw(_healthBarTexture, healthBarRectangle, Color.White);
 
-        //    int healthWidth = (int)((_currentHealth / (float)_maxHealth) * healthBarWidth);
-        //    Rectangle currentHealthRectangle = new Rectangle((int)healthBarPosition.X, (int)healthBarPosition.Y, healthWidth, healthBarHeight);
-        //    spriteBatch.Draw(_healthBarTexture, currentHealthRectangle, Color.Green);
-        //}
-        
+            int healthWidth = (int)((_currentHealth / (float)_maxHealth) * healthBarWidth);
+            Rectangle currentHealthRectangle = new Rectangle((int)healthBarPosition.X, (int)healthBarPosition.Y, healthWidth, healthBarHeight);
+            spriteBatch.Draw(_healthBarTexture, currentHealthRectangle, Color.Green);
+        }
 
-        //public void TakeDamage(int amount)
-        //{
-        //    _currentHealth -= amount;
-        //    if (_currentHealth <= 0)
-        //    {
-        //        _currentHealth = 0;
-        //    }
-        //}
-}
+        //projectiles
+        private void ShootAtPlayer()
+        {
+            Vector2 direction = _player.Position - Position;
+            direction.Normalize();
+            Vector2 velocity = direction * 5f;
+
+            Projectile projectile = new Projectile(_projectileTexture, Position, velocity);
+            _projectiles.Add(projectile);
+        }
+
+        public void TakeDamage(int amount)
+        {
+            _currentHealth -= amount;
+            if (_currentHealth <= 0)
+            {
+                _currentHealth = 0;
+            }
+        }
+    }
 }
