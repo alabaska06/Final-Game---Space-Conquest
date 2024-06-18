@@ -67,7 +67,9 @@ namespace Final_Game___Space_Conquest
             if (direction != Vector2.Zero)
             {
                 direction.Normalize();
-                Vector2 newPosition = Position + direction * _speed;
+
+                // horiz
+                Vector2 newPosition = new Vector2(Position.X + direction.X * _speed, Position.Y);
                 Rectangle newBoundingBox = new Rectangle((int)newPosition.X, (int)newPosition.Y, _boundingBox.Width, _boundingBox.Height);
 
                 if (!IsCollidingWithWalls(newBoundingBox, walls, wallsUp) && !IsCollidingWithBots(newBoundingBox, bots) && !IsCollidingWithGameObjects(newBoundingBox, gameObjects) && !IsCollidingWithPlayer(newBoundingBox) && !IsCollidingWithDoors(newBoundingBox, doors, verticalDoors))
@@ -75,7 +77,21 @@ namespace Final_Game___Space_Conquest
                     Position = newPosition;
                     _rotation = (float)Math.Atan2(direction.Y, direction.X);
                 }
-               
+
+
+                // vert
+                newPosition = new Vector2(Position.X, Position.Y + direction.Y * _speed);
+                newBoundingBox = new Rectangle((int)newPosition.X, (int)newPosition.Y, _boundingBox.Width, _boundingBox.Height);
+
+                if (!IsCollidingWithWalls(newBoundingBox, walls, wallsUp) && !IsCollidingWithBots(newBoundingBox, bots) && !IsCollidingWithGameObjects(newBoundingBox, gameObjects) && !IsCollidingWithPlayer(newBoundingBox) && !IsCollidingWithDoors(newBoundingBox, doors, verticalDoors))
+                {
+                    Position = newPosition;
+                    _rotation = (float)Math.Atan2(direction.Y, direction.X);
+                }
+
+
+
+
             }
         }
         private bool IsCollidingWithWalls(Rectangle newBoundingBox, List<Rectangle> walls, List<Rectangle> wallsUp)

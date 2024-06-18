@@ -17,7 +17,7 @@ namespace Final_Game___Space_Conquest
         private Texture2D _botTexture;
         private Texture2D _projectileTexture;
 
-        private List<Projectile> _projectiles;
+        public List<Projectile> _projectiles;
 
         private Player _player;
         private Camera _camera;
@@ -225,7 +225,7 @@ namespace Final_Game___Space_Conquest
 
             _player = new Player(_playerTexture, _deadPlayerTexture, greyhealthTexture, _font, gameOverTexture, _exitTexture, _exitTexture2);
             _camera = new Camera(GraphicsDevice.Viewport);
-
+            
 
             // TODO: use this.Content to load your game content here
         }
@@ -239,20 +239,14 @@ namespace Final_Game___Space_Conquest
             _player.Update(gameTime, walls, wallsUp, doors, verticalDoors, _gameObjects, _bots);
             _camera.Update(_player.Position);
 
+            
+
             foreach (var bot in _bots)
             {
                 bot.Update(gameTime, _camera, walls, wallsUp, doors, verticalDoors, _bots, _gameObjects, _projectiles);
                 
             }
-            //foreach (Projectile projectile in _projectiles)
-            //{
-            //    projectile.Update(gameTime, walls, wallsUp, doors, verticalDoors, _gameObjects, _bots);
-            //    if (gameTime.TotalGameTime.TotalSeconds - projectile.TimeSinceLastShot > projectile.ShootInterval)
-            //    {
 
-            //        projectile.TimeSinceLastShot = gameTime.TotalGameTime.TotalSeconds;
-            //    }
-            //}
             foreach (Projectile projectile in _projectiles)
             {
                 projectile.Update(gameTime, walls, wallsUp, doors, verticalDoors, _gameObjects, _bots);
