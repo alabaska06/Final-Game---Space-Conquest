@@ -67,7 +67,14 @@ namespace Final_Game___Space_Conquest
             }
             foreach (var projectile in _projectiles)
             {
-                projectile.Update(gameTime);
+                projectile.Update(gameTime, walls, wallsUp, doors, verticalDoors, gameObjects, bots);
+            }
+            for (int i = _projectiles.Count - 1; i >= 0; i--)
+            {
+                if (_projectiles[i].Update(gameTime, walls, wallsUp, doors, verticalDoors, gameObjects, bots))
+                {
+                    _projectiles.RemoveAt(i);
+                }
             }
             
             UpdateBoundingBox();
@@ -109,9 +116,6 @@ namespace Final_Game___Space_Conquest
                     Position = newPosition;
                     _rotation = (float)Math.Atan2(direction.Y, direction.X);
                 }
-
-
-
 
             }
         }

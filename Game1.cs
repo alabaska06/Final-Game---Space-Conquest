@@ -68,7 +68,10 @@ namespace Final_Game___Space_Conquest
 
             base.Initialize();
 
-             _bots = new List<Bot>
+            _camera = new Camera(GraphicsDevice.Viewport);
+            _player = new Player(_playerTexture, _deadPlayerTexture, greyhealthTexture, _camera, _font, gameOverTexture, _exitTexture, _exitTexture2);
+
+            _bots = new List<Bot>
             {
                 new Bot(_botTexture, greyhealthTexture, new Vector2(200, 200), _player, _projectileTexture),
                 new Bot(_botTexture, greyhealthTexture, new Vector2(500, 500), _player, _projectileTexture),
@@ -214,12 +217,7 @@ namespace Final_Game___Space_Conquest
             greyhealthTexture = Content.Load<Texture2D>("healthBarGrey");
             greenHealthTexture = Content.Load<Texture2D>("healthBarGreen");
             gameOverTexture = Content.Load<Texture2D>("gameOver");
-
-
-
-            _player = new Player(_playerTexture, _deadPlayerTexture, greyhealthTexture, _font, gameOverTexture, _exitTexture, _exitTexture2);
-            _camera = new Camera(GraphicsDevice.Viewport);
-            
+            _font = Content.Load<SpriteFont>("_font");
 
             // TODO: use this.Content to load your game content here
         }

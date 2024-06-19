@@ -21,15 +21,20 @@ namespace Final_Game___Space_Conquest
             private int _currentHealth;
             private bool _isDead;
 
+            private Camera _camera;
+
             private GameOverScreen _gameOverScreen;
             
             List<Rectangle> ExitRects;
-        public bool IsDead => _isDead;
+            public bool IsDead => _isDead;
+
+            private double gameOverTimer;
+            private bool gameOverDisplayed;
 
 
             public Rectangle BoundingBox;
 
-            public Player(Texture2D texture, Texture2D deadTexture, Texture2D healthBarTexture, SpriteFont font, Texture2D gameOverBackgroundTexture, Texture2D exitTexture, Texture2D exitTexture2, int maxHealth = 5)
+            public Player(Texture2D texture, Texture2D deadTexture, Texture2D healthBarTexture, Camera camera, SpriteFont font, Texture2D gameOverBackgroundTexture, Texture2D exitTexture, Texture2D exitTexture2, int maxHealth = 5)
             {
                 _texture = texture;
                 _deadTexture = deadTexture;
@@ -43,13 +48,24 @@ namespace Final_Game___Space_Conquest
                 _currentHealth = maxHealth;
                 _isDead = false;
                 _gameOverScreen = new GameOverScreen(font, gameOverBackgroundTexture);
-               
+                _camera = camera;
+
+                gameOverTimer = 0;
+                gameOverDisplayed = false;
                 UpdateBoundingBox();
             }
 
             public void Update(GameTime gameTime, List<Rectangle> walls, List<Rectangle> wallsUp, List<door> doors, List<VerticalDoor> verticalDoors, List<GameObjects> gameObjects, List<Bot> bots)
             {
-                if (_isDead) return;
+                if (_isDead)
+            {
+                gameOverTimer += gameTime.ElapsedGameTime.TotalSeconds;
+                if (gameOverTimer >= 2 && !gameOverDisplayed)
+                {
+                    gameOverDisplayed = true;
+                }
+                return;
+            }
 
                 KeyboardState state = Keyboard.GetState();
                 exitRect = new Rectangle(170, 500, 65, 165);
@@ -174,9 +190,9 @@ namespace Final_Game___Space_Conquest
             spriteBatch.Draw(textureToDraw, new Vector2(Position.X + origin.X, Position.Y + origin.Y), null, Color.White, _rotation, origin, 1.0f, SpriteEffects.None, 0f);
             DrawHealthBar(spriteBatch);
 
-            if (_isDead)
+            if (gameOverDisplayed)
             {
-                _gameOverScreen.Draw(spriteBatch);
+                _gameOverScreen.Draw(spriteBatch, _camera);
             }
         }
         public void DrawTexture(SpriteBatch spriteBatch, SpriteBatch spriteBatch2)

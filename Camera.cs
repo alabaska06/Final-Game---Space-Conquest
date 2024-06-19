@@ -7,7 +7,7 @@ namespace Final_Game___Space_Conquest
     public class Camera
     {
         public Matrix Transform { get; private set; }
-        private Vector2 _center;
+        public Vector2 _center;
         private Viewport _viewport;
 
         public Camera(Viewport viewport)
