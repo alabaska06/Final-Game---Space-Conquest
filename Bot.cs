@@ -44,6 +44,7 @@ namespace Final_Game___Space_Conquest
 
             //projectiles
             _projectileTexture = projectileTexture;
+
             _projectiles = new List<Projectile>();
             _shootCoolDown = TimeSpan.FromSeconds(2);
             _lastShootTime = TimeSpan.Zero;
@@ -205,7 +206,7 @@ namespace Final_Game___Space_Conquest
             Vector2 healthBarPosition = new Vector2(Position.X + (_texture.Width / 2) - (healthBarHeight / 2), Position.Y - 10);
 
             Rectangle healthBarRectangle = new Rectangle((int)healthBarPosition.X, (int)healthBarPosition.Y, healthBarWidth, healthBarHeight);
-            spriteBatch.Draw(_healthBarTexture, healthBarRectangle, Color.White);
+            spriteBatch.Draw(_healthBarTexture, healthBarRectangle, Color.Gray);
 
             int healthWidth = (int)((_currentHealth / (float)_maxHealth) * healthBarWidth);
             Rectangle currentHealthRectangle = new Rectangle((int)healthBarPosition.X, (int)healthBarPosition.Y, healthWidth, healthBarHeight);

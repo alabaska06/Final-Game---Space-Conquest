@@ -20,6 +20,13 @@ namespace Final_Game___Space_Conquest
             private int _maxHealth;
             private int _currentHealth;
             private bool _isDead;
+            private Texture2D _projectileTexture;
+             
+            private List<Projectile> _projectiles;
+            public List<Projectile> Projectiles => _projectiles;
+
+            private TimeSpan _shootCoolDown;
+            private TimeSpan _lastShootTime;
 
             private Camera _camera;
 
@@ -34,7 +41,7 @@ namespace Final_Game___Space_Conquest
 
             public Rectangle BoundingBox;
 
-            public Player(Texture2D texture, Texture2D deadTexture, Texture2D healthBarTexture, Camera camera, SpriteFont font, Texture2D gameOverBackgroundTexture, Texture2D exitTexture, Texture2D exitTexture2, int maxHealth = 5)
+            public Player(Texture2D texture, Texture2D deadTexture, Texture2D healthBarTexture, Texture2D projectileTexture, Camera camera, SpriteFont font, Texture2D gameOverBackgroundTexture, Texture2D exitTexture, Texture2D exitTexture2, int maxHealth = 5)
             {
                 _texture = texture;
                 _deadTexture = deadTexture;
@@ -49,13 +56,17 @@ namespace Final_Game___Space_Conquest
                 _isDead = false;
                 _gameOverScreen = new GameOverScreen(font, gameOverBackgroundTexture);
                 _camera = camera;
+                _shootCoolDown = TimeSpan.FromSeconds(2);
+                _lastShootTime = TimeSpan.Zero;
+                _projectiles = new List<Projectile>();
+                _projectileTexture = projectileTexture;
 
                 gameOverTimer = 0;
                 gameOverDisplayed = false;
                 UpdateBoundingBox();
             }
 
-            public void Update(GameTime gameTime, List<Rectangle> walls, List<Rectangle> wallsUp, List<door> doors, List<VerticalDoor> verticalDoors, List<GameObjects> gameObjects, List<Bot> bots, List<Projectile> projectiles, Texture2D projectileTexture)
+            public void Update(GameTime gameTime, List<Rectangle> walls, List<Rectangle> wallsUp, List<door> doors, List<VerticalDoor> verticalDoors, List<GameObjects> gameObjects, List<Bot> bots, List<Projectile> _projectiles, Texture2D projectileTexture)
             {
                 if (_isDead)
                 {
@@ -67,17 +78,13 @@ namespace Final_Game___Space_Conquest
                     return;
                 }
 
-                MouseState mouseState = Mouse.GetState();
+                MouseState mouseState;
+                mouseState = Mouse.GetState();
 
-                if (mouseState.LeftButton == ButtonState.Pressed)
-            {
-                Vector2 mousePosition = new Vector2(mouseState.X, mouseState.Y);
-                Vector2 playerProDirection = mousePosition - Position;
-                playerProDirection.Normalize();
-                Vector2 velocity = playerProDirection * 5f;
-
-                projectiles.Add(new Projectile(projectileTexture, Position, velocity));
-            }
+                if (mouseState.LeftButton == ButtonState.Pressed && gameTime.TotalGameTime - _lastShootTime > _shootCoolDown)
+                {
+                    ShootAtAliens();
+                }
 
                 KeyboardState state = Keyboard.GetState();
                 exitRect = new Rectangle(170, 500, 65, 165);
@@ -126,7 +133,21 @@ namespace Final_Game___Space_Conquest
             }
                   
 
-            }
+        }
+
+
+        private void ShootAtAliens()
+        {
+            MouseState mouseState = Mouse.GetState();
+            Vector2 mousePosition = new Vector2(mouseState.X, mouseState.Y);
+
+            Vector2 playerProDirection = mousePosition - Position;
+            playerProDirection.Normalize();
+            Vector2 velocity = playerProDirection * 5f;
+
+            Projectile projectile = new Projectile(_projectileTexture, Position, velocity);
+            _projectiles.Add(projectile);
+        }
 
         private bool IsCollidingWithWalls(Rectangle newBoundingBox, List<Rectangle> walls, List<Rectangle> wallsUp)
         {
@@ -206,6 +227,10 @@ namespace Final_Game___Space_Conquest
             {
                 _gameOverScreen.Draw(spriteBatch, _camera);
             }
+            foreach (Projectile projectile in _projectiles)
+            {
+                projectile.Draw(spriteBatch);
+            }
         }
         public void DrawTexture(SpriteBatch spriteBatch, SpriteBatch spriteBatch2)
         {
@@ -247,11 +272,6 @@ namespace Final_Game___Space_Conquest
                 
             }
         }
-        public void DrawPro(SpriteBatch spriteBatch)
-        {
-            spriteBatch.Draw(_texture, Position, Color.White);
-        }
-
 
         }
     }

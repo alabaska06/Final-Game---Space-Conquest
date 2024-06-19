@@ -72,7 +72,7 @@ namespace Final_Game___Space_Conquest
             base.Initialize();
 
             _camera = new Camera(GraphicsDevice.Viewport);
-            _player = new Player(_playerTexture, _deadPlayerTexture, greyhealthTexture, _camera, _font, gameOverTexture, _exitTexture, _exitTexture2);
+            _player = new Player(_playerTexture, _deadPlayerTexture, greyhealthTexture, _projectileTexture, _camera, _font, gameOverTexture, _exitTexture, _exitTexture2);
 
             _bots = new List<Bot>
             {
@@ -297,7 +297,7 @@ namespace Final_Game___Space_Conquest
             }
             foreach (Projectile projectile in projectiles)
             {
-                projectile.Draw(spriteBatch);
+                projectile.Draw(_spriteBatch);
             }
 
             foreach (var door in doors)
