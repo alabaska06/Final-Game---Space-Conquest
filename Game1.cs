@@ -234,13 +234,14 @@ namespace Final_Game___Space_Conquest
             _player.Update(gameTime, walls, wallsUp, doors, verticalDoors, _gameObjects, _bots, projectiles, _projectileTexture);
             _camera.Update(_player.Position);
 
-            for (int i = projectiles.Count - 1; i >=0; i--)
-            {
-                if (projectiles[i].Update(gameTime, walls, wallsUp, doors, verticalDoors, _gameObjects, _bots))
-                {
-                    projectiles.RemoveAt(i);
-                }
-            }
+    
+            //for (int i = projectiles.Count - 1; i >=0; i--)
+            //{
+            //    if (projectiles[i].Update(gameTime, walls, wallsUp, doors, verticalDoors, _gameObjects, _bots))
+            //    {
+            //        projectiles.RemoveAt(i);
+            //    }
+            //}
 
             foreach (var bot in _bots)
             {

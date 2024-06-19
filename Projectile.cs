@@ -10,7 +10,7 @@ namespace Final_Game___Space_Conquest
         public Vector2 Velocity;
         private Texture2D _texture;
         private Rectangle _boundingBox;
-
+        public bool ShouldBeRemoved { get; private set; }
         public Rectangle BoundingBox => _boundingBox;
 
         public Projectile(Texture2D texture, Vector2 position, Vector2 velocity)
@@ -18,6 +18,7 @@ namespace Final_Game___Space_Conquest
             _texture = texture;
             Position = position;
             Velocity = velocity;
+            ShouldBeRemoved = false;
             UpdateBoundingBox();
         }
 
@@ -28,7 +29,9 @@ namespace Final_Game___Space_Conquest
             UpdateBoundingBox();
             if (IsCollidingWithDoors(doors, verticalDoors) || IsCollidingWithWalls(walls, wallsUp) || IsCollidingWithGameObjects(gameObjects))
             {
+                ShouldBeRemoved = true;
                 return true;
+                
             }
             return false;
         }

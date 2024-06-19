@@ -60,6 +60,7 @@ namespace Final_Game___Space_Conquest
                 _lastShootTime = TimeSpan.Zero;
                 _projectiles = new List<Projectile>();
                 _projectileTexture = projectileTexture;
+    
 
                 gameOverTimer = 0;
                 gameOverDisplayed = false;
@@ -77,16 +78,18 @@ namespace Final_Game___Space_Conquest
                     }
                     return;
                 }
-
-                MouseState mouseState;
-                mouseState = Mouse.GetState();
-
-                if (mouseState.LeftButton == ButtonState.Pressed && gameTime.TotalGameTime - _lastShootTime > _shootCoolDown)
+            MouseState mouseState = Mouse.GetState();
+                if (mouseState.LeftButton == ButtonState.Pressed)
                 {
-                    ShootAtAliens();
+                    Vector2 mousePosition = new Vector2(mouseState.X, mouseState.Y);
+                    Vector2 prodirection = mousePosition - Position;
+                    prodirection.Normalize();
+                    Vector2 velocity = prodirection * 5f;
+
+                    _projectiles.Add(new Projectile(_projectileTexture, Position, velocity));
                 }
 
-                KeyboardState state = Keyboard.GetState();
+            KeyboardState state = Keyboard.GetState();
                 exitRect = new Rectangle(170, 500, 65, 165);
 
                 ExitRects = new List<Rectangle>
@@ -118,6 +121,7 @@ namespace Final_Game___Space_Conquest
                         Position = newPosition;
                         _rotation = (float)Math.Atan2(direction.Y, direction.X);
                         UpdateBoundingBox();
+              
                     }
                 }
             if (exitRect.Contains(BoundingBox))
@@ -131,23 +135,40 @@ namespace Final_Game___Space_Conquest
                     Game1.self.Exit();
                 }
             }
+            foreach (var projectile in _projectiles)
+            {
+                projectile.Update(gameTime, walls, wallsUp, doors, verticalDoors, gameObjects, bots);
+            }
+            //for (int i = _projectiles.Count - 1; i >= 0; i--)
+            //{
+            //    _projectiles[i].Update(gameTime, walls, wallsUp, doors, verticalDoors, gameObjects, bots);
+            //    if (_projectiles[i].ShouldBeRemoved)
+            //    {
+            //        _projectiles.RemoveAt(i);
+            //    }
+            //}
                   
 
         }
 
 
-        private void ShootAtAliens()
-        {
-            MouseState mouseState = Mouse.GetState();
-            Vector2 mousePosition = new Vector2(mouseState.X, mouseState.Y);
+        //private void ShootAtAliens()
+        //{
+        //    MouseState mouseState = Mouse.GetState();
+        //    Vector2 mousePosition = new Vector2(mouseState.X, mouseState.Y);
 
-            Vector2 playerProDirection = mousePosition - Position;
-            playerProDirection.Normalize();
-            Vector2 velocity = playerProDirection * 5f;
+        //    Vector2 worldMousePosition = Vector2.Transform(mousePosition, Matrix.Invert(_camera.Transform));
+        //    Vector2 projectileStartPosition = Position + new Vector2(_texture.Width / 2, _texture.Height / 2);
 
-            Projectile projectile = new Projectile(_projectileTexture, Position, velocity);
-            _projectiles.Add(projectile);
-        }
+
+
+        //    Vector2 playerProDirection = worldMousePosition - projectileStartPosition;
+        //    playerProDirection.Normalize();
+        //    Vector2 velocity = playerProDirection * 5f;
+
+        //    Projectile projectile = new Projectile(_projectileTexture, Position, velocity);
+        //    _projectiles.Add(projectile);
+        //}
 
         private bool IsCollidingWithWalls(Rectangle newBoundingBox, List<Rectangle> walls, List<Rectangle> wallsUp)
         {
@@ -227,10 +248,10 @@ namespace Final_Game___Space_Conquest
             {
                 _gameOverScreen.Draw(spriteBatch, _camera);
             }
-            foreach (Projectile projectile in _projectiles)
-            {
-                projectile.Draw(spriteBatch);
-            }
+            //foreach (Projectile projectile in _projectiles)
+            //{
+            //    projectile.Draw(spriteBatch);
+            //}
         }
         public void DrawTexture(SpriteBatch spriteBatch, SpriteBatch spriteBatch2)
         {
