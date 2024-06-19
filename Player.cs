@@ -55,16 +55,28 @@ namespace Final_Game___Space_Conquest
                 UpdateBoundingBox();
             }
 
-            public void Update(GameTime gameTime, List<Rectangle> walls, List<Rectangle> wallsUp, List<door> doors, List<VerticalDoor> verticalDoors, List<GameObjects> gameObjects, List<Bot> bots)
+            public void Update(GameTime gameTime, List<Rectangle> walls, List<Rectangle> wallsUp, List<door> doors, List<VerticalDoor> verticalDoors, List<GameObjects> gameObjects, List<Bot> bots, List<Projectile> projectiles, Texture2D projectileTexture)
             {
                 if (_isDead)
-            {
-                gameOverTimer += gameTime.ElapsedGameTime.TotalSeconds;
-                if (gameOverTimer >= 2 && !gameOverDisplayed)
                 {
-                    gameOverDisplayed = true;
+                    gameOverTimer += gameTime.ElapsedGameTime.TotalSeconds;
+                    if (gameOverTimer >= 2 && !gameOverDisplayed)
+                    {
+                        gameOverDisplayed = true;
+                    }
+                    return;
                 }
-                return;
+
+                MouseState mouseState = Mouse.GetState();
+
+                if (mouseState.LeftButton == ButtonState.Pressed)
+            {
+                Vector2 mousePosition = new Vector2(mouseState.X, mouseState.Y);
+                Vector2 playerProDirection = mousePosition - Position;
+                playerProDirection.Normalize();
+                Vector2 velocity = playerProDirection * 5f;
+
+                projectiles.Add(new Projectile(projectileTexture, Position, velocity));
             }
 
                 KeyboardState state = Keyboard.GetState();
@@ -234,6 +246,10 @@ namespace Final_Game___Space_Conquest
                 _isDead = true;
                 
             }
+        }
+        public void DrawPro(SpriteBatch spriteBatch)
+        {
+            spriteBatch.Draw(_texture, Position, Color.White);
         }
 
 

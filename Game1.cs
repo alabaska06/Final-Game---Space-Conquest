@@ -46,6 +46,8 @@ namespace Final_Game___Space_Conquest
         List<door> doors;
         List<VerticalDoor> verticalDoors;
 
+        List<Projectile> projectiles;
+
         private List<GameObjects> _gameObjects;
 
 
@@ -65,6 +67,7 @@ namespace Final_Game___Space_Conquest
             _graphics.PreferredBackBufferWidth = 800;
             _graphics.PreferredBackBufferHeight = 500;
             _graphics.ApplyChanges();
+            projectiles = new List<Projectile>();
 
             base.Initialize();
 
@@ -228,8 +231,16 @@ namespace Final_Game___Space_Conquest
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
                 Exit();
             
-            _player.Update(gameTime, walls, wallsUp, doors, verticalDoors, _gameObjects, _bots);
+            _player.Update(gameTime, walls, wallsUp, doors, verticalDoors, _gameObjects, _bots, projectiles, _projectileTexture);
             _camera.Update(_player.Position);
+
+            for (int i = projectiles.Count - 1; i >=0; i--)
+            {
+                if (projectiles[i].Update(gameTime, walls, wallsUp, doors, verticalDoors, _gameObjects, _bots))
+                {
+                    projectiles.RemoveAt(i);
+                }
+            }
 
             foreach (var bot in _bots)
             {
@@ -283,6 +294,10 @@ namespace Final_Game___Space_Conquest
             foreach (var bot in _bots)
             {
                 bot.Draw(_spriteBatch);
+            }
+            foreach (Projectile projectile in projectiles)
+            {
+                projectile.Draw(spriteBatch);
             }
 
             foreach (var door in doors)
