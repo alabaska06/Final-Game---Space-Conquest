@@ -200,7 +200,6 @@ namespace Final_Game___Space_Conquest
         }
         private void DrawHealthBar(SpriteBatch spriteBatch)
         {
-
             int healthBarWidth = 50;
             int healthBarHeight = 5;
             Vector2 healthBarPosition = new Vector2(Position.X + (_texture.Width / 2) - (healthBarHeight / 2), Position.Y - 10);

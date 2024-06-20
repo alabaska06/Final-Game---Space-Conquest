@@ -13,12 +13,13 @@ namespace Final_Game___Space_Conquest
 
         public static Game1 self;
 
-        public List<Bot> _bots;
-        private Texture2D _botTexture;
-        private Texture2D _projectileTexture;
+        public List<Bot> _bots;//bots
+        private Texture2D _botTexture;//bots
+        private Texture2D _projectileTexture;//bots
 
         private Player _player;
         private Camera _camera;
+        private Bot bot;
 
         private Texture2D _playerTexture;
         private Texture2D _exitTexture;
@@ -26,8 +27,8 @@ namespace Final_Game___Space_Conquest
 
         private Texture2D _deadPlayerTexture;
         private Texture2D _deadAlienTexture;
-        private Texture2D greyhealthTexture;
-        private Texture2D greenHealthTexture;
+        private Texture2D greyhealthTexture;//
+        private Texture2D greenHealthTexture;//
         private Texture2D gameOverTexture;
 
         private Texture2D _doorTexture;
@@ -46,8 +47,8 @@ namespace Final_Game___Space_Conquest
         List<door> doors;
         List<VerticalDoor> verticalDoors;
 
-        List<Projectile> projectiles;
-        List<PlayerProjectile> playerProjectile;
+        List<Projectile> projectiles;//
+        List<PlayerProjectile> playerProjectile;//
 
         private List<GameObjects> _gameObjects;
 
@@ -74,7 +75,7 @@ namespace Final_Game___Space_Conquest
             base.Initialize();
 
             _camera = new Camera(GraphicsDevice.Viewport);
-            _player = new Player(_playerTexture, _deadPlayerTexture, greyhealthTexture, _projectileTexture, _camera, _font, gameOverTexture, _exitTexture, _exitTexture2);
+            _player = new Player(bot, _playerTexture, _deadPlayerTexture, greyhealthTexture, _projectileTexture, _camera, _font, gameOverTexture, _exitTexture, _exitTexture2);
 
             _bots = new List<Bot>
             {
@@ -250,6 +251,7 @@ namespace Final_Game___Space_Conquest
                     }
                 }
             }
+
             //foreach (var projectile in projectiles)
             //{
             //    projectile.Update(gameTime, walls, wallsUp, doors, verticalDoors, _gameObjects, _bots);
@@ -304,7 +306,10 @@ namespace Final_Game___Space_Conquest
             {
                 projectile.Draw(_spriteBatch);
             }
-            foreach (PlayerProjectile projectile in )
+            foreach (PlayerProjectile projectile in playerProjectile)
+            {
+                projectile.Draw(_spriteBatch);
+            }
             foreach (var door in doors)
             {
                 door.Draw(_spriteBatch);
