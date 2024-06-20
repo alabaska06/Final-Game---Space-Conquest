@@ -47,6 +47,7 @@ namespace Final_Game___Space_Conquest
         List<VerticalDoor> verticalDoors;
 
         List<Projectile> projectiles;
+        List<PlayerProjectile> playerProjectile;
 
         private List<GameObjects> _gameObjects;
 
@@ -68,6 +69,7 @@ namespace Final_Game___Space_Conquest
             _graphics.PreferredBackBufferHeight = 500;
             _graphics.ApplyChanges();
             projectiles = new List<Projectile>();
+            playerProjectile = new List<PlayerProjectile>();
 
             base.Initialize();
 
@@ -248,17 +250,17 @@ namespace Final_Game___Space_Conquest
                     }
                 }
             }
-            foreach (var projectile in projectiles)
-            {
-                projectile.Update(gameTime, walls, wallsUp, doors, verticalDoors, _gameObjects, _bots);
-                foreach (var projectiles in _player.Projectiles)
-                {
-                    if (projectile.BoundingBox.Intersects(_bots.BoundingBox))
-                    {
+            //foreach (var projectile in projectiles)
+            //{
+            //    projectile.Update(gameTime, walls, wallsUp, doors, verticalDoors, _gameObjects, _bots);
+            //    foreach (var projectiles in _player.Projectiles)
+            //    {
+            //        if (projectile.BoundingBox.Intersects(_bots.BoundingBox))
+            //        {
 
-                    }
-                }
-            }
+            //        }
+            //    }
+            //}
 
             Vector2 worldMousePosition = ScreenToWorld(new Vector2(mouseState.X, mouseState.Y));
 
@@ -302,7 +304,7 @@ namespace Final_Game___Space_Conquest
             {
                 projectile.Draw(_spriteBatch);
             }
-
+            foreach (PlayerProjectile projectile in )
             foreach (var door in doors)
             {
                 door.Draw(_spriteBatch);

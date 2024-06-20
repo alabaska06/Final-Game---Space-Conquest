@@ -20,10 +20,10 @@ namespace Final_Game___Space_Conquest
             private int _maxHealth;
             private int _currentHealth;
             private bool _isDead;
-            private Texture2D _projectileTexture;
+            private Texture2D _playerProjectileTexture;
              
-            private List<Projectile> _projectiles;
-            public List<Projectile> Projectiles => _projectiles;
+            private List<PlayerProjectile> _playerProjectiles;
+            public List<PlayerProjectile> Projectiles => _playerProjectiles;
 
             private TimeSpan _shootCoolDown;
             private TimeSpan _lastShootTime;
@@ -41,7 +41,7 @@ namespace Final_Game___Space_Conquest
 
             public Rectangle BoundingBox;
 
-            public Player(Texture2D texture, Texture2D deadTexture, Texture2D healthBarTexture, Texture2D projectileTexture, Camera camera, SpriteFont font, Texture2D gameOverBackgroundTexture, Texture2D exitTexture, Texture2D exitTexture2, int maxHealth = 5)
+            public Player(Texture2D texture, Texture2D deadTexture, Texture2D healthBarTexture, Texture2D playerProjectileTexture, Camera camera, SpriteFont font, Texture2D gameOverBackgroundTexture, Texture2D exitTexture, Texture2D exitTexture2, int maxHealth = 5)
             {
                 _texture = texture;
                 _deadTexture = deadTexture;
@@ -58,8 +58,8 @@ namespace Final_Game___Space_Conquest
                 _camera = camera;
                 _shootCoolDown = TimeSpan.FromSeconds(2);
                 _lastShootTime = TimeSpan.Zero;
-                _projectiles = new List<Projectile>();
-                _projectileTexture = projectileTexture;
+                _playerProjectiles = new List<PlayerProjectile>();
+                _playerProjectileTexture = playerProjectileTexture;
     
 
                 gameOverTimer = 0;
@@ -78,15 +78,16 @@ namespace Final_Game___Space_Conquest
                     }
                     return;
                 }
-            MouseState mouseState = Mouse.GetState();
+                MouseState mouseState = Mouse.GetState();
+
                 if (mouseState.LeftButton == ButtonState.Pressed)
                 {
-                    Vector2 mousePosition = new Vector2(mouseState.X, mouseState.Y);
-                    Vector2 prodirection = mousePosition - Position;
+                    //Vector2 mousePosition = new Vector2(mouseState.X, mouseState.Y);
+                    Vector2 prodirection = mouseState.Position.ToVector2() - Position;
                     prodirection.Normalize();
                     Vector2 velocity = prodirection * 5f;
 
-                    _projectiles.Add(new Projectile(_projectileTexture, Position, velocity));
+                    _playerProjectiles.Add(new PlayerProjectile(_playerProjectileTexture, prodirection, velocity));
                 }
 
             KeyboardState state = Keyboard.GetState();
