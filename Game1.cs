@@ -234,15 +234,6 @@ namespace Final_Game___Space_Conquest
             _player.Update(gameTime, walls, wallsUp, doors, verticalDoors, _gameObjects, _bots, projectiles, _projectileTexture);
             _camera.Update(_player.Position);
 
-    
-            //for (int i = projectiles.Count - 1; i >=0; i--)
-            //{
-            //    if (projectiles[i].Update(gameTime, walls, wallsUp, doors, verticalDoors, _gameObjects, _bots))
-            //    {
-            //        projectiles.RemoveAt(i);
-            //    }
-            //}
-
             foreach (var bot in _bots)
             {
                 bot.Update(gameTime, _camera, walls, wallsUp, doors, verticalDoors, _bots, _gameObjects);
@@ -254,6 +245,17 @@ namespace Final_Game___Space_Conquest
                         _player.TakeDamage(1);
                         bot.Projectiles.Remove(projectile);
                         break;
+                    }
+                }
+            }
+            foreach (var projectile in projectiles)
+            {
+                projectile.Update(gameTime, walls, wallsUp, doors, verticalDoors, _gameObjects, _bots);
+                foreach (var projectiles in _player.Projectiles)
+                {
+                    if (projectile.BoundingBox.Intersects(_bots.BoundingBox))
+                    {
+
                     }
                 }
             }

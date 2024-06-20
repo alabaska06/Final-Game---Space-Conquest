@@ -135,20 +135,8 @@ namespace Final_Game___Space_Conquest
                     Game1.self.Exit();
                 }
             }
-            foreach (var projectile in _projectiles)
-            {
-                projectile.Update(gameTime, walls, wallsUp, doors, verticalDoors, gameObjects, bots);
-            }
-            //for (int i = _projectiles.Count - 1; i >= 0; i--)
-            //{
-            //    _projectiles[i].Update(gameTime, walls, wallsUp, doors, verticalDoors, gameObjects, bots);
-            //    if (_projectiles[i].ShouldBeRemoved)
-            //    {
-            //        _projectiles.RemoveAt(i);
-            //    }
-            //}
-                  
 
+                  
         }
 
 
@@ -248,10 +236,8 @@ namespace Final_Game___Space_Conquest
             {
                 _gameOverScreen.Draw(spriteBatch, _camera);
             }
-            //foreach (Projectile projectile in _projectiles)
-            //{
-            //    projectile.Draw(spriteBatch);
-            //}
+    
+
         }
         public void DrawTexture(SpriteBatch spriteBatch, SpriteBatch spriteBatch2)
         {
