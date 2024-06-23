@@ -22,6 +22,19 @@ namespace Final_Game___Space_Conquest
         private bool _isDead;
         private Texture2D _playerProjectileTexture;
 
+        public int Damage { get; private set; } = 1;
+        private int defaultDamage = 1;
+        private int poweredUpDamage = 5;
+        private double powerUpDuration = 10;
+        private double powerUpTimer = 0;
+        private bool isPoweredUp = false;
+
+        private float defaultSpeed = 5f;
+        private float poweredUpSpeed = 8f;
+        private double speedPowerUpDuration = 10;
+        private double speedPowerUpTimer;
+        private bool isSpeedPoweredUp = false;
+
         private List<PlayerProjectile> _playerProjectiles;
         public List<PlayerProjectile> Projectiles => _playerProjectiles;
 
@@ -33,6 +46,8 @@ namespace Final_Game___Space_Conquest
         private GameOverScreen _gameOverScreen;
 
         List<Rectangle> ExitRects;
+ 
+      
         public bool IsDead => _isDead;
 
         private double gameOverTimer;
@@ -61,7 +76,6 @@ namespace Final_Game___Space_Conquest
             _lastShootTime = TimeSpan.Zero;
             _playerProjectiles = new List<PlayerProjectile>();
             _playerProjectileTexture = playerProjectileTexture;
-
 
             gameOverTimer = 0;
             gameOverDisplayed = false;
@@ -106,6 +120,7 @@ namespace Final_Game___Space_Conquest
                 }
             }
             KeyboardState state = Keyboard.GetState();
+
             exitRect = new Rectangle(170, 500, 65, 165);
 
             ExitRects = new List<Rectangle>
@@ -132,7 +147,7 @@ namespace Final_Game___Space_Conquest
                 Vector2 newPosition = Position + direction * _speed;
                 Rectangle newBoundingBox = new Rectangle((int)newPosition.X, (int)newPosition.Y, BoundingBox.Width, BoundingBox.Height);
 
-                if (!IsCollidingWithWalls(newBoundingBox, walls, wallsUp) && !IsCollidingWithDoors(newBoundingBox, doors, verticalDoors) && !IsCollidingWithGameObjects(newBoundingBox, gameObjects)/* && !IsCollidingWithBots(newBoundingBox, bots)*/)
+                if (!IsCollidingWithWalls(newBoundingBox, walls, wallsUp) && !IsCollidingWithDoors(newBoundingBox, doors, verticalDoors) && !IsCollidingWithGameObjects(newBoundingBox, gameObjects) /*&& !IsCollidingWithBots(newBoundingBox, bots)*/)
                 {
                     Position = newPosition;
                     _rotation = (float)Math.Atan2(direction.Y, direction.X);
@@ -140,6 +155,27 @@ namespace Final_Game___Space_Conquest
 
                 }
             }
+
+            if (isPoweredUp)
+            {
+                powerUpTimer -= gameTime.ElapsedGameTime.TotalSeconds;
+                if (powerUpTimer <= 0)
+                {
+                    Damage = defaultDamage;
+                    isPoweredUp = false;
+                }
+            }
+
+            if (isSpeedPoweredUp)
+            {
+                speedPowerUpTimer -= gameTime.ElapsedGameTime.TotalSeconds;
+                if (speedPowerUpTimer <= 0)
+                {
+                    _speed = defaultSpeed;
+                    isSpeedPoweredUp = false;
+                }
+            }
+
             if (exitRect.Contains(BoundingBox))
             {
                 Game1.self.Exit();
@@ -244,6 +280,7 @@ namespace Final_Game___Space_Conquest
                 projectile.Draw(spriteBatch);
             }
             DrawHealthBar(spriteBatch);
+        
 
         }
         public void DrawTexture(SpriteBatch spriteBatch, SpriteBatch spriteBatch2)
@@ -286,6 +323,17 @@ namespace Final_Game___Space_Conquest
 
             }
         }
-
+        public void CollectPowerUp()
+        {
+            isPoweredUp = true;
+            Damage = poweredUpDamage;
+            powerUpTimer = powerUpDuration;
+        }
+        public void CollectSpeedPowerUp()
+        {
+            isSpeedPoweredUp = true;
+            _speed = poweredUpSpeed;
+            speedPowerUpTimer = speedPowerUpDuration;
+        }
     }
 }

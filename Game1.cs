@@ -24,6 +24,9 @@ namespace Final_Game___Space_Conquest
         private Texture2D _exitTexture;
         private Texture2D _exitTexture2;
 
+        private Texture2D _speedBoost;
+        private Texture2D _instaKill;
+
         private Texture2D _deadPlayerTexture;
         private Texture2D _deadAlienTexture;
         private Texture2D greyhealthTexture;
@@ -48,7 +51,8 @@ namespace Final_Game___Space_Conquest
 
         List<Projectile> projectiles;
         List<PlayerProjectile> playerProjectile;
-
+        List<Rectangle> InstaKills;
+        List<Rectangle> SpeedBoosts;
         private List<GameObjects> _gameObjects;
 
 
@@ -82,6 +86,16 @@ namespace Final_Game___Space_Conquest
                 new Bot(_botTexture, _deadAlienTexture, greyhealthTexture, new Vector2(500, 500), _player, _projectileTexture),
             };
 
+            InstaKills = new List<Rectangle>
+            {
+                new Rectangle(300, 300, 45, 45),
+
+            };
+            SpeedBoosts = new List<Rectangle>
+            {
+                new Rectangle(400, 400, 45, 45),
+
+            };
 
             _gameObjects = new List<GameObjects>
             {
@@ -223,6 +237,8 @@ namespace Final_Game___Space_Conquest
             greenHealthTexture = Content.Load<Texture2D>("healthBarGreen");
             gameOverTexture = Content.Load<Texture2D>("gameOver");
             _font = Content.Load<SpriteFont>("_font");
+            _speedBoost = Content.Load<Texture2D>("speedBoost");
+            _instaKill = Content.Load<Texture2D>("instaKill");
 
             // TODO: use this.Content to load your game content here
         }
@@ -236,6 +252,26 @@ namespace Final_Game___Space_Conquest
             _player.Update(gameTime, walls, wallsUp, doors, verticalDoors, _gameObjects, _bots, projectiles, _projectileTexture);
             _camera.Update(_player.Position);
 
+            for (int i = 0; i < InstaKills.Count; i++)
+            {
+                if (InstaKills[i].Intersects(_player.BoundingBox))
+                {
+                    InstaKills.RemoveAt(i);
+                    _player.CollectPowerUp();
+                    break;
+                }
+
+            }
+            for (int i = 0; i < SpeedBoosts.Count; i++)
+            {
+                if (SpeedBoosts[i].Intersects(_player.BoundingBox))
+                {
+                    SpeedBoosts.RemoveAt(i);
+                    _player.CollectSpeedPowerUp();
+                    break;
+                }
+
+            }
             foreach (var bot in _bots)
             {
                 bot.Update(gameTime, _camera, walls, wallsUp, doors, verticalDoors, _bots, _gameObjects);
@@ -258,7 +294,7 @@ namespace Final_Game___Space_Conquest
                 {
                     if (projectile.BoundingBox.Intersects(bot.BoundingBox))
                     {
-                        bot.TakeDamage(1);
+                        bot.TakeDamage(_player.Damage);
                         _player.Projectiles.RemoveAt(i);
                         break;
                     }
@@ -268,6 +304,8 @@ namespace Final_Game___Space_Conquest
             Vector2 worldMousePosition = ScreenToWorld(new Vector2(mouseState.X, mouseState.Y));
 
             Window.Title = $"Mouse Position: {worldMousePosition.X}, {worldMousePosition.Y}";
+
+            
 
             foreach (var door in doors)
             {
@@ -324,6 +362,15 @@ namespace Final_Game___Space_Conquest
             foreach (var gameObject in _gameObjects)
             {
                 gameObject.Draw(_spriteBatch);
+            }
+
+            foreach (var instaKill in InstaKills)
+            {
+                _spriteBatch.Draw(_instaKill, instaKill, Color.White);
+            }
+            foreach (var speedBoost in SpeedBoosts)
+            {
+                _spriteBatch.Draw(_speedBoost, speedBoost, Color.White);
             }
 
             foreach (Rectangle walls in walls)
