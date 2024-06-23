@@ -82,19 +82,49 @@ namespace Final_Game___Space_Conquest
 
             _bots = new List<Bot>
             {
-                new Bot(_botTexture, _deadAlienTexture, greyhealthTexture, new Vector2(200, 200), _player, _projectileTexture),
-                new Bot(_botTexture, _deadAlienTexture, greyhealthTexture, new Vector2(500, 500), _player, _projectileTexture),
+                new Bot(_botTexture, _deadAlienTexture, greyhealthTexture, new Vector2(249, 142), _player, _projectileTexture),
+                new Bot(_botTexture, _deadAlienTexture, greyhealthTexture, new Vector2(322, 308), _player, _projectileTexture),
+                new Bot(_botTexture, _deadAlienTexture, greyhealthTexture, new Vector2(643, 267), _player, _projectileTexture),
+                new Bot(_botTexture, _deadAlienTexture, greyhealthTexture, new Vector2(1589, 167), _player, _projectileTexture),
+                new Bot(_botTexture, _deadAlienTexture, greyhealthTexture, new Vector2(586, 529), _player, _projectileTexture),
+                new Bot(_botTexture, _deadAlienTexture, greyhealthTexture, new Vector2(1825, 75), _player, _projectileTexture),
+                new Bot(_botTexture, _deadAlienTexture, greyhealthTexture, new Vector2(1825, 301), _player, _projectileTexture),
+                new Bot(_botTexture, _deadAlienTexture, greyhealthTexture, new Vector2(1919, 1133), _player, _projectileTexture),
+                new Bot(_botTexture, _deadAlienTexture, greyhealthTexture, new Vector2(1624, 754), _player, _projectileTexture),
+                new Bot(_botTexture, _deadAlienTexture, greyhealthTexture, new Vector2(1965, 1624), _player, _projectileTexture),
+                new Bot(_botTexture, _deadAlienTexture, greyhealthTexture, new Vector2(748, 1822), _player, _projectileTexture),
+                new Bot(_botTexture, _deadAlienTexture, greyhealthTexture, new Vector2(1269, 1679), _player, _projectileTexture),
+                new Bot(_botTexture, _deadAlienTexture, greyhealthTexture, new Vector2(870, 829), _player, _projectileTexture),
+                new Bot(_botTexture, _deadAlienTexture, greyhealthTexture, new Vector2(93, 851), _player, _projectileTexture),
+                new Bot(_botTexture, _deadAlienTexture, greyhealthTexture, new Vector2(887, 1137), _player, _projectileTexture),
+                new Bot(_botTexture, _deadAlienTexture, greyhealthTexture, new Vector2(450, 1865), _player, _projectileTexture),
+                new Bot(_botTexture, _deadAlienTexture, greyhealthTexture, new Vector2(367, 1585), _player, _projectileTexture),
+                new Bot(_botTexture, _deadAlienTexture, greyhealthTexture, new Vector2(113, 956), _player, _projectileTexture),
+                new Bot(_botTexture, _deadAlienTexture, greyhealthTexture, new Vector2(450, 1189), _player, _projectileTexture),
             };
 
             InstaKills = new List<Rectangle>
             {
+                new Rectangle(527, 748, 45, 45),
+                new Rectangle(1229, 1164, 45, 45),
+                new Rectangle(245, 1911, 45, 45),
+                new Rectangle(2039, 1458, 45, 45),
+                new Rectangle(673, 1909, 45, 45),
+                new Rectangle(1626, 1300, 45, 45),
+                new Rectangle(1404, 46, 45, 45),
                 new Rectangle(300, 300, 45, 45),
+
 
             };
             SpeedBoosts = new List<Rectangle>
             {
                 new Rectangle(400, 400, 45, 45),
-
+                new Rectangle(75, 1202, 45, 45),
+                new Rectangle(352, 1574, 45, 45),
+                new Rectangle(2009, 1762, 45, 45),
+                new Rectangle(1437, 1035, 45, 45),
+                new Rectangle(1899, 552, 45, 45),
+                new Rectangle(1694, 378, 45, 45),
             };
 
             _gameObjects = new List<GameObjects>
