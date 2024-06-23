@@ -6,8 +6,8 @@ namespace Final_Game___Space_Conquest
 {
     public class PlayerProjectile
     {
-        public Vector2 Position;
-        public Vector2 Velocity;
+        private Vector2 Position;
+        private Vector2 Velocity;
         private Texture2D _texture;
         private Rectangle _boundingBox;
         public bool ShouldBeRemoved { get; private set; }

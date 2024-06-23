@@ -5,7 +5,7 @@ using System.Collections.Generic;
 namespace Final_Game___Space_Conquest
 {
     public class Projectile
-{
+    {
         public Vector2 Position;
         public Vector2 Velocity;
         private Texture2D _texture;
@@ -25,13 +25,13 @@ namespace Final_Game___Space_Conquest
         public bool Update(GameTime gameTime, List<Rectangle> walls, List<Rectangle> wallsUp, List<door> doors, List<VerticalDoor> verticalDoors, List<GameObjects> gameObjects, List<Bot> bots)
         {
             Position += Velocity;
-          
+
             UpdateBoundingBox();
             if (IsCollidingWithDoors(doors, verticalDoors) || IsCollidingWithWalls(walls, wallsUp) || IsCollidingWithGameObjects(gameObjects))
             {
                 ShouldBeRemoved = true;
                 return true;
-                
+
             }
             return false;
         }

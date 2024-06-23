@@ -24,6 +24,9 @@ namespace Final_Game___Space_Conquest
         public int ViewportWidth => _viewport.Width;
         public int ViewportHeight => _viewport.Height;
 
+        public Vector2 ScreenToWorld(Vector2 screenPosition)
+        {
+            return Vector2.Transform(screenPosition, Matrix.Invert(Transform));
+        }
     }
 }
-

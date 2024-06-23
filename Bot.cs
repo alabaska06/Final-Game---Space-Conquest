@@ -8,10 +8,11 @@ using System.Collections.Generic;
 namespace Final_Game___Space_Conquest
 {
     public class Bot
-{
+    {
 
         public Vector2 Position;
         private Texture2D _texture;
+        private Texture2D _deadtexture;
         private Texture2D _healthBarTexture;
         private int _maxHealth;
         private int _currentHealth;
@@ -26,14 +27,18 @@ namespace Final_Game___Space_Conquest
         private TimeSpan _shootCoolDown;
         private TimeSpan _lastShootTime;
 
+        private bool _isDead;
+
         public List<Projectile> Projectiles => _projectiles;
         public Rectangle BoundingBox => _boundingBox;
 
+
         private Player _player;
 
-        public Bot(Texture2D texture, Texture2D healthBartexture, Vector2 position, Player player, Texture2D projectileTexture, int maxHealth = 5)
+        public Bot(Texture2D texture, Texture2D deadTexture, Texture2D healthBartexture, Vector2 position, Player player, Texture2D projectileTexture, int maxHealth = 5)
         {
             _texture = texture;
+            _deadtexture = deadTexture;
             _healthBarTexture = healthBartexture;
             _maxHealth = maxHealth;
             _currentHealth = maxHealth;
@@ -41,25 +46,27 @@ namespace Final_Game___Space_Conquest
             _speed = 2f;
             _rotation = 0f;
             _player = player;
-
+            _isDead = false;
             //projectiles
             _projectileTexture = projectileTexture;
 
             _projectiles = new List<Projectile>();
             _shootCoolDown = TimeSpan.FromSeconds(2);
             _lastShootTime = TimeSpan.Zero;
-    
+
             UpdateBoundingBox();
         }
-       
+
         public void Update(GameTime gameTime, Camera camera, List<Rectangle> walls, List<Rectangle> wallsUp, List<door> doors, List<VerticalDoor> verticalDoors, List<Bot> bots, List<GameObjects> gameObjects)
         {
+            if (_isDead) return;
+
             // check if bot is within the players viewport
             if (IsPlayerinViewport(camera))
             {
                 //follow the player
                 MoveTowardsPlayer(gameTime, walls, wallsUp, doors, verticalDoors, bots, gameObjects);
-                
+
                 if (gameTime.TotalGameTime - _lastShootTime > _shootCoolDown)
                 {
                     ShootAtPlayer();
@@ -77,7 +84,7 @@ namespace Final_Game___Space_Conquest
                     _projectiles.RemoveAt(i);
                 }
             }
-            
+
             UpdateBoundingBox();
         }
         private bool IsPlayerinViewport(Camera camera)
@@ -92,6 +99,8 @@ namespace Final_Game___Space_Conquest
         }
         private void MoveTowardsPlayer(GameTime gameTime, List<Rectangle> walls, List<Rectangle> wallsUp, List<door> doors, List<VerticalDoor> verticalDoors, List<Bot> bots, List<GameObjects> gameObjects)
         {
+            if (_isDead) return;
+
             Vector2 direction = _player.Position - Position;
             if (direction != Vector2.Zero)
             {
@@ -182,7 +191,6 @@ namespace Final_Game___Space_Conquest
         {
             return newBoundingBox.Intersects(_player.BoundingBox);
         }
-       
         private void UpdateBoundingBox()
         {
             _boundingBox = new Rectangle((int)Position.X, (int)Position.Y, _texture.Width, _texture.Height);
@@ -190,7 +198,8 @@ namespace Final_Game___Space_Conquest
         public void Draw(SpriteBatch spriteBatch)
         {
             Vector2 origin = new Vector2(_texture.Width / 2, _texture.Height / 2);
-            spriteBatch.Draw(_texture, new Vector2(Position.X + origin.X, Position.Y + origin.Y), null, Color.White, _rotation, origin, 1.0f, SpriteEffects.None, 0f);
+            Texture2D textureToDraw = _isDead ? _deadtexture : _texture;
+            spriteBatch.Draw(textureToDraw, new Vector2(Position.X + origin.X, Position.Y + origin.Y), null, Color.White, _rotation, origin, 1.0f, SpriteEffects.None, 0f);
 
             foreach (var projectile in _projectiles)
             {
@@ -200,6 +209,7 @@ namespace Final_Game___Space_Conquest
         }
         private void DrawHealthBar(SpriteBatch spriteBatch)
         {
+
             int healthBarWidth = 50;
             int healthBarHeight = 5;
             Vector2 healthBarPosition = new Vector2(Position.X + (_texture.Width / 2) - (healthBarHeight / 2), Position.Y - 10);
@@ -215,6 +225,8 @@ namespace Final_Game___Space_Conquest
         //projectiles
         private void ShootAtPlayer()
         {
+            if (_isDead) return;
+
             Vector2 direction = _player.Position - Position;
             direction.Normalize();
             Vector2 velocity = direction * 5f;
@@ -229,6 +241,7 @@ namespace Final_Game___Space_Conquest
             if (_currentHealth <= 0)
             {
                 _currentHealth = 0;
+                _isDead = true;
             }
         }
     }

@@ -13,13 +13,12 @@ namespace Final_Game___Space_Conquest
 
         public static Game1 self;
 
-        public List<Bot> _bots;//bots
-        private Texture2D _botTexture;//bots
-        private Texture2D _projectileTexture;//bots
+        public List<Bot> _bots;
+        private Texture2D _botTexture;
+        private Texture2D _projectileTexture;
 
         private Player _player;
         private Camera _camera;
-        private Bot bot;
 
         private Texture2D _playerTexture;
         private Texture2D _exitTexture;
@@ -27,8 +26,8 @@ namespace Final_Game___Space_Conquest
 
         private Texture2D _deadPlayerTexture;
         private Texture2D _deadAlienTexture;
-        private Texture2D greyhealthTexture;//
-        private Texture2D greenHealthTexture;//
+        private Texture2D greyhealthTexture;
+        private Texture2D greenHealthTexture;
         private Texture2D gameOverTexture;
 
         private Texture2D _doorTexture;
@@ -47,8 +46,8 @@ namespace Final_Game___Space_Conquest
         List<door> doors;
         List<VerticalDoor> verticalDoors;
 
-        List<Projectile> projectiles;//
-        List<PlayerProjectile> playerProjectile;//
+        List<Projectile> projectiles;
+        List<PlayerProjectile> playerProjectile;
 
         private List<GameObjects> _gameObjects;
 
@@ -59,7 +58,7 @@ namespace Final_Game___Space_Conquest
             Content.RootDirectory = "Content";
             IsMouseVisible = true;
             self = this;
-            
+
         }
 
         protected override void Initialize()
@@ -75,15 +74,15 @@ namespace Final_Game___Space_Conquest
             base.Initialize();
 
             _camera = new Camera(GraphicsDevice.Viewport);
-            _player = new Player(bot, _playerTexture, _deadPlayerTexture, greyhealthTexture, _projectileTexture, _camera, _font, gameOverTexture, _exitTexture, _exitTexture2);
+            _player = new Player(_playerTexture, _deadPlayerTexture, greyhealthTexture, _projectileTexture, _camera, _font, gameOverTexture, _exitTexture, _exitTexture2);
 
             _bots = new List<Bot>
             {
-                new Bot(_botTexture, greyhealthTexture, new Vector2(200, 200), _player, _projectileTexture),
-                new Bot(_botTexture, greyhealthTexture, new Vector2(500, 500), _player, _projectileTexture),
+                new Bot(_botTexture, _deadAlienTexture, greyhealthTexture, new Vector2(200, 200), _player, _projectileTexture),
+                new Bot(_botTexture, _deadAlienTexture, greyhealthTexture, new Vector2(500, 500), _player, _projectileTexture),
             };
 
-  
+
             _gameObjects = new List<GameObjects>
             {
                 new GameObjects(Content.Load<Texture2D>("chair"), new Vector2(977, 961)),
@@ -220,7 +219,7 @@ namespace Final_Game___Space_Conquest
             _projectileTexture = Content.Load<Texture2D>("projectile");
             _deadPlayerTexture = Content.Load<Texture2D>("deadAstronaut");
             _deadAlienTexture = Content.Load<Texture2D>("deadAlien");
-            greyhealthTexture = Content.Load<Texture2D>("healthBarGrey");
+            greyhealthTexture = Content.Load<Texture2D>("healthBarWhite");
             greenHealthTexture = Content.Load<Texture2D>("healthBarGreen");
             gameOverTexture = Content.Load<Texture2D>("gameOver");
             _font = Content.Load<SpriteFont>("_font");
@@ -233,14 +232,14 @@ namespace Final_Game___Space_Conquest
             mouseState = Mouse.GetState();
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
                 Exit();
-            
+
             _player.Update(gameTime, walls, wallsUp, doors, verticalDoors, _gameObjects, _bots, projectiles, _projectileTexture);
             _camera.Update(_player.Position);
 
             foreach (var bot in _bots)
             {
                 bot.Update(gameTime, _camera, walls, wallsUp, doors, verticalDoors, _bots, _gameObjects);
-                
+
                 foreach (var projectile in bot.Projectiles)
                 {
                     if (projectile.BoundingBox.Intersects(_player.BoundingBox))
@@ -251,18 +250,20 @@ namespace Final_Game___Space_Conquest
                     }
                 }
             }
+            for (int i = _player.Projectiles.Count - 1; i >= 0; i--)
+            {
+                var projectile = _player.Projectiles[i];
 
-            //foreach (var projectile in projectiles)
-            //{
-            //    projectile.Update(gameTime, walls, wallsUp, doors, verticalDoors, _gameObjects, _bots);
-            //    foreach (var projectiles in _player.Projectiles)
-            //    {
-            //        if (projectile.BoundingBox.Intersects(_bots.BoundingBox))
-            //        {
-
-            //        }
-            //    }
-            //}
+                foreach (var bot in _bots)
+                {
+                    if (projectile.BoundingBox.Intersects(bot.BoundingBox))
+                    {
+                        bot.TakeDamage(1);
+                        _player.Projectiles.RemoveAt(i);
+                        break;
+                    }
+                }
+            }
 
             Vector2 worldMousePosition = ScreenToWorld(new Vector2(mouseState.X, mouseState.Y));
 
@@ -283,7 +284,7 @@ namespace Final_Game___Space_Conquest
                 gameObject.Update(gameTime);
             }
 
-           
+
 
             // TODO: Add your update logic here
 
@@ -297,7 +298,7 @@ namespace Final_Game___Space_Conquest
             _spriteBatch.Begin(transformMatrix: _camera.Transform);
             _spriteBatch.Draw(floor, new Rectangle(0, 0, 2100, 2100), Color.White);
             _spriteBatch.Draw(carpet, new Rectangle(157, 1870, 280, 90), Color.White);
-           
+
             foreach (var bot in _bots)
             {
                 bot.Draw(_spriteBatch);

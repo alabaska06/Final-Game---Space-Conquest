@@ -20,6 +20,18 @@
 /processorParam:TextureFormat=Compressed
 /build:_font.spritefont
 
+#begin ../../../../../Downloads/healthBarWhite.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:../../../../../Downloads/healthBarWhite.png;healthBarWhite.png
+
 #begin alienTest.png
 /importer:TextureImporter
 /processor:TextureProcessor
@@ -271,6 +283,18 @@
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
 /build:healthBarGrey.png
+
+#begin healthBarWhite.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:healthBarWhite.png
 
 #begin kitfridge.png
 /importer:TextureImporter
