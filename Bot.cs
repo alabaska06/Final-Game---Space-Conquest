@@ -26,8 +26,10 @@ namespace Final_Game___Space_Conquest
         private Texture2D _projectileTexture;
         private TimeSpan _shootCoolDown;
         private TimeSpan _lastShootTime;
+        private float _timeSinceDeath;
 
         private bool _isDead;
+        private bool _isDeactivated = false;
 
         public List<Projectile> Projectiles => _projectiles;
         public Rectangle BoundingBox => _boundingBox;
@@ -59,7 +61,23 @@ namespace Final_Game___Space_Conquest
 
         public void Update(GameTime gameTime, Camera camera, List<Rectangle> walls, List<Rectangle> wallsUp, List<door> doors, List<VerticalDoor> verticalDoors, List<Bot> bots, List<GameObjects> gameObjects)
         {
+            if (_isDead)
+            {
+                _timeSinceDeath += (float)gameTime.ElapsedGameTime.TotalSeconds;
+
+                if (_timeSinceDeath >= 2f)
+                {
+                    _isDeactivated = true;
+                }
+            }
+
             if (_isDead) return;
+
+            if (!_isDead)
+            {
+                _timeSinceDeath = 0f;
+                _isDeactivated = false;
+            }
 
             // check if bot is within the players viewport
             if (IsPlayerinViewport(camera))
@@ -73,10 +91,13 @@ namespace Final_Game___Space_Conquest
                     _lastShootTime = gameTime.TotalGameTime;
                 }
             }
+
             foreach (var projectile in _projectiles)
             {
                 projectile.Update(gameTime, walls, wallsUp, doors, verticalDoors, gameObjects, bots);
             }
+
+
             for (int i = _projectiles.Count - 1; i >= 0; i--)
             {
                 if (_projectiles[i].Update(gameTime, walls, wallsUp, doors, verticalDoors, gameObjects, bots))
@@ -167,6 +188,7 @@ namespace Final_Game___Space_Conquest
         }
         private bool IsCollidingWithBots(Rectangle newBoundingBox, List<Bot> bots)
         {
+            if (_isDeactivated) return false;
             foreach (Bot bot in bots)
             {
                 if (bot != this && newBoundingBox.Intersects(bot.BoundingBox))
@@ -178,6 +200,7 @@ namespace Final_Game___Space_Conquest
         }
         private bool IsCollidingWithGameObjects(Rectangle newBoundingBox, List<GameObjects> gameObjects)
         {
+
             foreach (GameObjects gameObject in gameObjects)
             {
                 if (newBoundingBox.Intersects(gameObject.BoundingBox))
@@ -189,6 +212,8 @@ namespace Final_Game___Space_Conquest
         }
         private bool IsCollidingWithPlayer(Rectangle newBoundingBox)
         {
+            if (_isDeactivated) return false;
+
             return newBoundingBox.Intersects(_player.BoundingBox);
         }
         private void UpdateBoundingBox()
@@ -197,9 +222,15 @@ namespace Final_Game___Space_Conquest
         }
         public void Draw(SpriteBatch spriteBatch)
         {
+            if (_isDeactivated) return;
+
             Vector2 origin = new Vector2(_texture.Width / 2, _texture.Height / 2);
             Texture2D textureToDraw = _isDead ? _deadtexture : _texture;
-            spriteBatch.Draw(textureToDraw, new Vector2(Position.X + origin.X, Position.Y + origin.Y), null, Color.White, _rotation, origin, 1.0f, SpriteEffects.None, 0f);
+
+            if (!_isDead || _timeSinceDeath < 2f)
+            {
+                spriteBatch.Draw(textureToDraw, new Vector2(Position.X + origin.X, Position.Y + origin.Y), null, Color.White, _rotation, origin, 1.0f, SpriteEffects.None, 0f);
+            }
 
             foreach (var projectile in _projectiles)
             {

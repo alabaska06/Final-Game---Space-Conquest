@@ -132,7 +132,7 @@ namespace Final_Game___Space_Conquest
                 Vector2 newPosition = Position + direction * _speed;
                 Rectangle newBoundingBox = new Rectangle((int)newPosition.X, (int)newPosition.Y, BoundingBox.Width, BoundingBox.Height);
 
-                if (!IsCollidingWithWalls(newBoundingBox, walls, wallsUp) && !IsCollidingWithDoors(newBoundingBox, doors, verticalDoors) && !IsCollidingWithGameObjects(newBoundingBox, gameObjects) && !IsCollidingWithBots(newBoundingBox, bots))
+                if (!IsCollidingWithWalls(newBoundingBox, walls, wallsUp) && !IsCollidingWithDoors(newBoundingBox, doors, verticalDoors) && !IsCollidingWithGameObjects(newBoundingBox, gameObjects)/* && !IsCollidingWithBots(newBoundingBox, bots)*/)
                 {
                     Position = newPosition;
                     _rotation = (float)Math.Atan2(direction.Y, direction.X);
@@ -217,17 +217,17 @@ namespace Final_Game___Space_Conquest
             }
             return false;
         }
-        private bool IsCollidingWithBots(Rectangle newBoundingBox, List<Bot> bots)
-        {
-            foreach (Bot bot in bots)
-            {
-                if (newBoundingBox.Intersects(bot.BoundingBox))
-                {
-                    return true;
-                }
-            }
-            return false;
-        }
+        //private bool IsCollidingWithBots(Rectangle newBoundingBox, List<Bot> bots)
+        //{
+        //    foreach (Bot bot in bots)
+        //    {
+        //        if (newBoundingBox.Intersects(bot.BoundingBox))
+        //        {
+        //            return true;
+        //        }
+        //    }
+        //    return false;
+        //}
         public void Draw(SpriteBatch spriteBatch)
         {
             Vector2 origin = new Vector2(_texture.Width / 2, _texture.Height / 2);
