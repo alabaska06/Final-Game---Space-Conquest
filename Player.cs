@@ -17,8 +17,8 @@ namespace Final_Game___Space_Conquest
         private float _speed;
         private float _rotation;
         Rectangle exitRect, exitRect2;
-        private int _maxHealth;
-        private int _currentHealth;
+        private double _maxHealth;
+        private double _currentHealth;
         private bool _isDead;
         private Texture2D _playerProjectileTexture;
 
@@ -253,17 +253,7 @@ namespace Final_Game___Space_Conquest
             }
             return false;
         }
-        //private bool IsCollidingWithBots(Rectangle newBoundingBox, List<Bot> bots)
-        //{
-        //    foreach (Bot bot in bots)
-        //    {
-        //        if (newBoundingBox.Intersects(bot.BoundingBox))
-        //        {
-        //            return true;
-        //        }
-        //    }
-        //    return false;
-        //}
+   
         public void Draw(SpriteBatch spriteBatch)
         {
             Vector2 origin = new Vector2(_texture.Width / 2, _texture.Height / 2);
@@ -302,16 +292,16 @@ namespace Final_Game___Space_Conquest
 
             int healthBarWidth = 50;
             int healthBarHeight = 5;
-            Vector2 healthBarPosition = new Vector2(Position.X + (_texture.Width / 2) - (healthBarWidth / 2), Position.Y - 10);
+            Vector2 healthBarPosition = new Vector2(Position.X + (_texture.Width / 2) - (healthBarHeight / 2), Position.Y - 10);
 
             Rectangle healthBarRectangle = new Rectangle((int)healthBarPosition.X, (int)healthBarPosition.Y, healthBarWidth, healthBarHeight);
             spriteBatch.Draw(_healthBarTexture, healthBarRectangle, Color.White);
 
             int healthWidth = (int)((_currentHealth / (float)_maxHealth) * healthBarWidth);
-            Rectangle currentHealthRectangle = new Rectangle((int)healthBarPosition.X, (int)healthBarPosition.Y, healthBarWidth, healthBarHeight);
+            Rectangle currentHealthRectangle = new Rectangle((int)healthBarPosition.X, (int)healthBarPosition.Y, healthWidth, healthBarHeight);
             spriteBatch.Draw(_healthBarTexture, currentHealthRectangle, Color.Green);
         }
-        public void TakeDamage(int amount)
+        public void TakeDamage(double amount)
         {
             if (_isDead) return;
 

@@ -33,7 +33,7 @@ namespace Final_Game___Space_Conquest
 
         public List<Projectile> Projectiles => _projectiles;
         public Rectangle BoundingBox => _boundingBox;
-
+        public bool IsDead => _isDead;
 
         private Player _player;
 
@@ -246,7 +246,7 @@ namespace Final_Game___Space_Conquest
             Vector2 healthBarPosition = new Vector2(Position.X + (_texture.Width / 2) - (healthBarHeight / 2), Position.Y - 10);
 
             Rectangle healthBarRectangle = new Rectangle((int)healthBarPosition.X, (int)healthBarPosition.Y, healthBarWidth, healthBarHeight);
-            spriteBatch.Draw(_healthBarTexture, healthBarRectangle, Color.Gray);
+            spriteBatch.Draw(_healthBarTexture, healthBarRectangle, Color.White);
 
             int healthWidth = (int)((_currentHealth / (float)_maxHealth) * healthBarWidth);
             Rectangle currentHealthRectangle = new Rectangle((int)healthBarPosition.X, (int)healthBarPosition.Y, healthWidth, healthBarHeight);

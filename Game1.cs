@@ -36,6 +36,11 @@ namespace Final_Game___Space_Conquest
         private Texture2D _doorTexture;
         private Texture2D _verticalDoorTexture;
 
+        private Texture2D introScreen;
+        private Rectangle introSize;
+
+        private Texture2D youWon;
+
         MouseState mouseState;
         SpriteFont _font;
 
@@ -74,6 +79,8 @@ namespace Final_Game___Space_Conquest
             _graphics.ApplyChanges();
             projectiles = new List<Projectile>();
             playerProjectile = new List<PlayerProjectile>();
+
+            introSize = new Rectangle(684, 119, 800, 500);
 
             base.Initialize();
 
@@ -269,6 +276,8 @@ namespace Final_Game___Space_Conquest
             _font = Content.Load<SpriteFont>("_font");
             _speedBoost = Content.Load<Texture2D>("speedBoost");
             _instaKill = Content.Load<Texture2D>("instaKill");
+            introScreen = Content.Load<Texture2D>("introToGame");
+            youWon = Content.Load<Texture2D>("youWon");
 
             // TODO: use this.Content to load your game content here
         }
@@ -310,7 +319,7 @@ namespace Final_Game___Space_Conquest
                 {
                     if (projectile.BoundingBox.Intersects(_player.BoundingBox))
                     {
-                        _player.TakeDamage(1);
+                        _player.TakeDamage(0.1);
                         bot.Projectiles.Remove(projectile);
                         break;
                     }
@@ -351,8 +360,6 @@ namespace Final_Game___Space_Conquest
             {
                 gameObject.Update(gameTime);
             }
-
-
 
             // TODO: Add your update logic here
 
@@ -412,6 +419,19 @@ namespace Final_Game___Space_Conquest
             _player.Draw(_spriteBatch);
             _player.DrawTexture(_spriteBatch, _spriteBatch);
             _player.DrawTextureRight(_spriteBatch);
+
+            _spriteBatch.Draw(introScreen, introSize, Color.White);
+            
+            if (Keyboard.GetState().IsKeyDown(Keys.Space))
+            {
+                introSize = new Rectangle(-1000, -1000, 2, 2);
+            }
+
+            if (_bots.TrueForAll(Bot => Bot.IsDead))
+            {
+                _spriteBatch.Draw(youWon, new Rectangle((int)(_camera._center.X), (int)(_camera._center.Y), _camera.ViewportWidth, _camera.ViewportHeight), Color.White);
+            }
+
             _spriteBatch.End();
 
             // TODO: Add your drawing code here
